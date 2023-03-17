@@ -1,0 +1,31 @@
+/// Plantilla para poner los datos de varias personas dentro de una tabla
+Jugadores.Tabla_de_Jugadores = {}
+
+// Cabecera de la tabla
+Jugadores.Tabla_de_jugadores.cabecera = `<table width="100%" class="listado-personas">
+                    <thead>
+                        <th width="10%">Dorsal</th>
+                        <th width="20%">Nombre</th>
+                        <th width="20%">Apellidos</th>
+                        <th width="10%">Equipo</th>
+                        <th width="15%">Año contratación</th>
+                        <th width="15%">Posicion</th>
+                    </thead>
+                    <tbody>
+    `;
+
+
+// Elemento TR que muestra los datos de una persona
+Jugadores.Tabla_de_Jugadores.cuerpo = `
+    <tr title="${Personas.Tabla_jugadores}">
+        <td>${Personas.Tabla_jugadores.DORSAL}</td>
+        <td>${Personas.Tabla_jugadores.NOMBRE}</td>
+        <td>${Personas.Tabla_jugadores.APELLIDOS}</td>
+        <td>${Personas.Tabla_jugadores.EQUIPO}</td>
+        <td>${Personas.plantillaTags["AÑO ENTRADA"]}</td>
+        <td>${Personas.Tabla_jugadores.POSICION}</td>
+        <td>
+                    <div><a href="javascript:Personas.mostrar('${Personas.plantillaTags.ID}')" class="opcion-secundaria mostrar">Mostrar</a></div>
+        </td>
+    </tr>
+    `;
