@@ -37,3 +37,14 @@ Frontend.Article.actualizar = function (titulo, contenido) {
     document.getElementById( Frontend.ID_SECCION_PRINCIPAL_CONTENIDO ).innerHTML = contenido
     return this;
 }
+
+/**
+ * Muestro el article
+ * @returns El propio Article para poder concatenar llamadas
+ */
+Frontend.Article.mostrar = function () {
+    let article = document.getElementById(Frontend.ID_SECCION_PRINCIPAL);
+    Frontend.quitarClase(Frontend.ID_SECCION_PRINCIPAL, Frontend.CLASS_OCULTAR)
+        .aniadirClase(Frontend.ID_SECCION_PRINCIPAL, Frontend.CLASS_MOSTRAR)
+
+}
