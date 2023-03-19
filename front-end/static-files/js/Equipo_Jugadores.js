@@ -1,10 +1,4 @@
 
-import "./Base_Datos"
-
-
-const fauna = require('faunadb');
-const client = new fauna.Client({ secret: 'YOUR_SECRET_KEY' });
-
 client.query(
     fauna.query.Map(
         fauna.query.Paginate(fauna.query.Match(fauna.query.Index("jugadores_por_equipo"), "Boston Bruins")),
@@ -13,29 +7,46 @@ client.query(
 )
     .then((response) => {
         const jugadores = response.data.map((jugador) => jugador.data);
-
-
+        const tabla = construirTabla(jugadores);
+        // Hacer algo con la tabla generada
     })
     .catch((error) => {
         console.error('Error al obtener los jugadores: ', error);
     });
-function construirTabla(jugadores) {
-    let tabla = Jugadores.Tabla_de_Jugadores.cabecera;
 
-    jugadores.forEach((jugador) => {
-        const fila = Jugadores.Tabla_de_Jugadores.cuerpo
-            .replace("${Personas.Tabla_jugadores.DORSAL}", jugador.dorsal)
-            .replace("${Personas.Tabla_jugadores.NOMBRE}", jugador.nombre)
-            .replace("${Personas.Tabla_jugadores.APELLIDOS}", jugador.apellidos)
-            .replace("${Personas.Tabla_jugadores.EQUIPO}", jugador.equipo)
-            .replace("${Personas.plantillaTags['AÑO ENTRADA']}", jugador.año_contratación)
-            .replace("${Personas.Tabla_jugadores.POSICION}", jugador.posicion);
+Jugadores.TablaEquipo.cabecera = `<table width="100%" class="listado-personas">
+    <thead>
+        <tr>
+            <th width="10%">Dorsal</th>
+            <th width="30%">Nombre completo</th>
+            <th width="20%">Equipo</th>
+            <th width="20%">Año de contratación</th>
+            <th width="20%">Posición</th>
+        </tr>
+    </thead>
+    <tbody>
+`;
 
-        tabla += fila;
-    });
+Jugadores.TablaEquipo.cuerpo = `
+    <tr title="${jugador.nombre}">
+        <td>${jugador.dorsal}</td>
+        <td>${jugador.nombre} ${jugador.apellidos}</td>
+        <td>${jugador.equipo}</td>
+        <td>${jugador.año_contratación}</td>
+        <td>${jugador.posicion}</td>
+        <td>
+            <div><a href="javascript:Personas.mostrar('${Personas.plantillaTags.ID}')" class="opcion-secundaria mostrar">Mostrar</a></div>
+        </td>
+    </tr>
+`;
 
-    tabla += '</tbody></table>';
+Jugadores.TablaEquipo.pie = `
+    </tbody>
+    </table>
+`;
 
-    // Aquí se podría agregar la tabla al DOM o hacer algo más con ella
-    console.log(tabla);
+Jugadores.mostrarTabla = function (jugador) {
+    return Jugadores.TablaEquipo.cabecera
+        + Jugadores.TablaEquipo.cuerpo
+        + Jugadores.TablaEquipo.pie;
 }
