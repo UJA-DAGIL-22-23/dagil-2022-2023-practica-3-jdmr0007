@@ -107,6 +107,8 @@ Plantilla.procesarAcercaDe = function () {
     this.descargarRuta("/plantilla/acercade", this.mostrarAcercaDe);
 }
 
+let Proyectos = {};
+
 
 // Funciones para mostrar como TABLE
 
@@ -202,5 +204,9 @@ Proyectos.imprime = function (vector) {
     // Borro toda la info de Article y la sustituyo por la que me interesa
     Frontend.Article.actualizar( "Listado de proyectos", msj )
 
+}
+
+Proyectos.listar = function () {
+    this.recupera(this.imprime);
 }
 
