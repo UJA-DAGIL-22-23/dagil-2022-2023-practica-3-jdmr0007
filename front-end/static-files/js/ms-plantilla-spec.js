@@ -123,6 +123,29 @@ describe("Plantilla.mostrarAcercaDe: ", function () {
         })
 })
 
+// Realizo los expect
+/*it("debería devolver una fila de tabla con los datos de un proyecto con personas asociadas",
+    function () {
+        let msj =
+        expect(msj.includes(d.inicio.dia)).toBeTrue();
+        expect(msj.includes(d.inicio.mes)).toBeTrue();
+        expect(msj.includes(d.inicio.año)).toBeTrue();
+        expect(msj.includes(d.final.dia)).toBeTrue();
+        expect(msj.includes(d.final.mes)).toBeTrue();
+        expect(msj.includes(d.final.año)).toBeTrue();
+        expect(msj.includes(Frontend.euros(d.presupuesto))).toBeTrue();
+        expect(msj.includes(d.alias)).toBeTrue();
+        expect(msj.includes(d.nombre)).toBeTrue();
+        for (let i = 0; i < d.datos_personas.length; ++i) {
+            let persona = d.datos_personas[i]
+            expect(msj.includes(persona.ref["@ref"].id)).toBeTrue();
+            expect(msj.includes(persona.data.nombre)).toBeTrue();
+            expect(msj.includes(persona.data.apellidos)).toBeTrue();
+        }
+
+    });*/
+
+
 
 /*
 IMPORTANTE
