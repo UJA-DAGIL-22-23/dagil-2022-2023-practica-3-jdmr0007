@@ -14,10 +14,10 @@ const faunadb = require('faunadb'),
     q = faunadb.query;
 
 const client = new faunadb.Client({
-    secret: '¿¿¿ CLAVE SECRETA EN FAUNA PARA ESTA BBDD???',
+    secret: 'fnAE_aP3MKAAzJ2OxyRIj5HVRufFhXIzCRxEdgJu',
 });
 
-const COLLECTION = "¿¿¿ COLECCION ???"
+const COLLECTION = "Equipos_Hokey_Hielo"
 
 // CALLBACKS DEL MODELO
 
@@ -101,6 +101,18 @@ const CB_OTHERS = {
             CORS(res).status(500).json({ error: error.description })
         }
     },
+
+    equipoHokey: async (req, res) => {
+        try {
+            res.redirect('/Equipo_Jugadores');
+        } catch (error) {
+            CORS(res).status(500).json({ error: error.description })
+        }
+    },
+
+
+
+
 
 }
 
