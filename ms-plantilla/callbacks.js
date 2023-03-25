@@ -7,6 +7,11 @@
  * @date 03-feb-2023
  */
 
+/// Necesario para solicitar datos a otro ms
+const fetch = require("node-fetch");
+
+/// Dirección del ms personas, necesario para ms proyectos
+const URL_MS_PERSONAS = "http://localhost:8002";
 
 
 // Necesario para conectar a la BBDD faunadb
@@ -61,8 +66,36 @@ const CB_MODEL_SELECTS = {
         }
     },
 
-}
 
+
+    getTodas: async (req, res) => {
+
+    try{
+        let equipos = await client.query(
+            q.Map(
+                q.Paginate(q.Documents(q.Collection(COLLECTION))),
+            q.Lambda("X", q.Get(q.Var("X")))
+            )
+        )
+        CORS(res).status(200).json(equipos)
+    } catch (error) {
+        CORS(res).status(500).json({ error: error.description })
+    }
+
+    },
+
+    getPorID: async (req, res) => {
+        try {
+            let equipo = await client.query(
+                q.Get(q.Ref(q.Collection("Equipos_Hokey_Hielo"), req.params.idEquipo))
+            )
+            CORS(res).status(200).json(equipo)
+        } catch (error) {
+            CORS(res).status(500).json({error: error.description})
+        }
+    },
+
+}
 
 
 // CALLBACKS ADICIONALES
@@ -93,9 +126,9 @@ const CB_OTHERS = {
         try {
             CORS(res).status(200).json({
                 mensaje: "Microservicio MS Plantilla: acerca de",
-                autor: "¿¿¿ AUTOR ???",
-                email: "¿¿¿ EMAIL ???",
-                fecha: "¿¿¿ FECHA ???"
+                autor: "Jose David Martinez Romero",
+                email: "Jdmr0007@red.ujaen.es",
+                fecha: "25/03/2023"
             });
         } catch (error) {
             CORS(res).status(500).json({ error: error.description })
@@ -104,10 +137,17 @@ const CB_OTHERS = {
 
     equipoHokey: async (req, res) => {
         try {
-            res.redirect('/Equipo_Jugadores');
+            CORS(res).status(200).json({
+                mensaje: "Hola Mundo",
+                autor: "Jose David Martinez Romero",
+                email: "Jdmr0007@red.ujaen.es",
+                fecha: "25/03/2023"
+            });
         } catch (error) {
             CORS(res).status(500).json({ error: error.description })
         }
+
+
     },
 
 
@@ -115,6 +155,8 @@ const CB_OTHERS = {
 
 
 }
+
+
 
 // Une todos los callbacks en un solo objeto para poder exportarlos.
 // MUY IMPORTANTE: No debe haber callbacks con el mismo nombre en los distintos objetos, porque si no

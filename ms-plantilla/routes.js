@@ -46,9 +46,9 @@ router.get("/test_db", async (req, res) => {
     }
 });
 
-router.get("/equipoHokey", async (req, res) => {
+router.post("/getPorId/:idEquipo", async (req, res) => {
     try {
-        await callbacks.equipoHokey(req, res)
+        await callbacks.getPorId(req, res)
     } catch (error) {
         console.log(error);
     }

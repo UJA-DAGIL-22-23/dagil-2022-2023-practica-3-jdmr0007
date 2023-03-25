@@ -109,6 +109,69 @@ Plantilla.procesarAcercaDe = function () {
 
 let Proyectos = {};
 
+/**
+ * Función principal para mostrar los datos enviados por la ruta " Equipo" de MS Plantilla
+ */
+
+Proyectos.mostrarEquipo = function (datosDescargados) {
+    // Si no se ha proporcionado valor para datosDescargados
+    datosDescargados = datosDescargados || this.datosDescargadosNulos
+
+    // Si datos descargados NO es un objeto
+    if (typeof datosDescargados !== "object") datosDescargados = this.datosDescargadosNulos
+
+    // Si datos descargados NO contiene los campos mensaje, autor, o email
+    if (typeof datosDescargados.mensaje === "undefined" ||
+        typeof datosDescargados.autor === "undefined" ||
+        typeof datosDescargados.email === "undefined" ||
+        typeof datosDescargados.fecha === "undefined"
+    ) datosDescargados = this.datosDescargadosNulos
+
+    const mensajeAMostrar = `<div>
+    <p>${datosDescargados.mensaje}</p>
+    <ul>
+        <li><b>Autor/a</b>: ${datosDescargados.autor}</li>
+        <li><b>E-mail</b>: ${datosDescargados.email}</li>
+        <li><b>Fecha</b>: ${datosDescargados.fecha}</li>
+    </ul>
+    </div>
+    `;
+    Frontend.Article.actualizar("Equipo", mensajeAMostrar)
+}
+
+Proyectos.procesarEquipo = function () {
+    this.descargarRuta("/plantilla/equipoHokey", this.mostrarEquipo());
+}
+
+
+
+/**
+* Función que recuperar todos los proyectos junto con las personas asignadas a cada uno de ellos
+* llamando al MS Proyectos
+* @param {función} callBackFn Función a la que se llamará una vez recibidos los datos.
+*/
+Proyectos.recuperaConJugadores = async function (callBackFn) {
+    let response = null
+
+    // Intento conectar con el microservicio proyectos
+    try {
+        const url = Frontend.API_GATEWAY + "/ms-plantilla/getTodosConPersonas"
+        response = await fetch(url)
+
+    } catch (error) {
+        alert("Error: No se han podido acceder al API Gateway")
+        console.error(error)
+        //throw error
+    }
+
+    // Muestro todos los proyectos que se han descargado
+    let vectorProyectos = null
+    if (response) {
+        vectorProyectos = await response.json()
+        callBackFn(vectorProyectos.data)
+    }
+}
+
 
 // Funciones para mostrar como TABLE
 
@@ -147,38 +210,7 @@ Proyectos.cuerpoTr = function (p) {
 }
 
 
-/*/**
- * Muestra la información de cada proyecto (incluyendo las personas asignadas)
- * en varios elementos TR con sus correspondientes TD
- * @param {proyecto} p Datos del proyecto a mostrar
- * @returns Cadena conteniendo los distintos elementos TR que muestran el proyecto.
 
-Proyectos.cuerpoConPersonasTr = function (p) {
-    const d = p.data
-    const ini = d.inicio;
-    const fin = d.final;
-    const presupuesto = Frontend.euros(d.presupuesto);
-    let msj = Proyectos.cabeceraTable();
-    msj += `<tr>
-    <td>${d.alias}</td>
-    <td><em>${d.nombre}</em></td>
-    <td>${presupuesto}</td>
-    <td>${ini.dia}/${ini.mes}/${ini.año}</td>
-    <td>${fin.dia}/${fin.mes}/${fin.año}</td>
-    </tr>
-    <tr><th colspan="5">Personas</th></tr>
-    <tr><td colspan="5">
-        ${d.datos_personas
-        .map(e => "<a href='javascript:Personas.mostrar(\"" + e.ref['@ref'].id + "\")'>"
-            + e.data.nombre
-            + " " + e.data.apellidos
-            + "</a>")
-        .join(", ")}
-    </td></tr>
-    `;
-    msj += Proyectos.pieTable();
-    return msj;
-}*/
 
 /**
  * Pie de la tabla en la que se muestran las personas
@@ -210,3 +242,10 @@ Proyectos.listar = function () {
     this.recupera(this.imprime);
 }
 
+
+
+/**
+ * Método para obtener todos los proyectos de la BBDD y, además, las personas que hay en cada proyecto
+ * @param {*} req Objeto con los parámetros que se han pasado en la llamada a esta URL
+ * @param {*} res Objeto Response con las respuesta que se va a dar a la petición recibida
+ */

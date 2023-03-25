@@ -6,7 +6,7 @@
 
     <!-- Cargamos biblioteca Jasmine -->
 
-    <link rel="stylesheet" href="js/Equipo_Jugadores.js">
+
     <link rel="stylesheet" href="lib/jasmine-4.5.0/jasmine.css">
     <script src="lib/jasmine-4.5.0/jasmine.js"></script>
     <script src="lib/jasmine-4.5.0/jasmine-html.js"></script>
@@ -36,9 +36,11 @@
     <br>
 
     <article id="seccion-principal">
-        <a href="javascript:Proyectos.listar()">Ver equipo</a>
+
         <h2 id="seccion-principal-titulo"></h2>
         <!-- Contenido del article -->
+        <a href="javascript:Proyectos.procesarEquipo()" class="opcion-principal"
+           title="Llama a la ruta / del MS Plantilla" >Ver equipo</a>
         <div id="seccion-principal-contenido">
         </div>
     </article>
@@ -54,6 +56,7 @@
     <!-- Cargamos ficheros JS propios del proyecto -->
     <script src="js/front-end.js"></script>
     <script src="js/ms-plantilla.js"></script>
+    <script src="js/Equipo_Jugadores.js"></script>
 
 
     <!-- Cargamos ficheros spec con los tests -->

@@ -1,25 +1,25 @@
+"use strict";
 
-client.query(
-    fauna.query.Map(
-        fauna.query.Paginate(fauna.query.Match(fauna.query.Index("jugadores_por_equipo"), "Boston Bruins")),
-        fauna.query.Lambda("jugador", fauna.query.Get(fauna.query.Var("jugador")))
-    )
-)
-    .then((response) => {
-        const jugadores = response.data.map((jugador) => jugador.data);
-        const tabla = construirTabla(jugadores);
-        // Hacer algo con la tabla generada
-    })
-    .catch((error) => {
-        console.error('Error al obtener los jugadores: ', error);
-    });
+
+let Jugadores = {};
+Jugadores.TablaEquipo = {};
+
+//Tags que voy a usar para sustituir los campos
+Jugadores.Tags = {
+    "Dorsal": "### DORSAL ###",
+    "NOMBRE": "### NOMBRE ###",
+    "APELLIDOS": "### APELLIDOS ###",
+    "Año de contratacion": "### AÑO CONTRATACION ###",
+    "Posicion": "### Posicion ###",
+}
+
 
 Jugadores.TablaEquipo.cabecera = `<table width="100%" class="listado-personas">
     <thead>
         <tr>
+            <th width="10%">ID</th>
             <th width="10%">Dorsal</th>
             <th width="30%">Nombre completo</th>
-            <th width="20%">Equipo</th>
             <th width="20%">Año de contratación</th>
             <th width="20%">Posición</th>
         </tr>
@@ -27,15 +27,16 @@ Jugadores.TablaEquipo.cabecera = `<table width="100%" class="listado-personas">
     <tbody>
 `;
 
+
+
 Jugadores.TablaEquipo.cuerpo = `
-    <tr title="${jugador.nombre}">
-        <td>${jugador.dorsal}</td>
-        <td>${jugador.nombre} ${jugador.apellidos}</td>
-        <td>${jugador.equipo}</td>
-        <td>${jugador.año_contratación}</td>
-        <td>${jugador.posicion}</td>
+    <tr title="${Jugadores.id}">
+        <td>${Jugadores.dorsal}</td>
+        <td>${Jugadores.nombre} ${Jugadores.apellidos}</td>
+        <td>${Jugadores.año_contratación}</td>
+        <td>${Jugadores.posicion}</td>
         <td>
-            <div><a href="javascript:Personas.mostrar('${Personas.plantillaTags.ID}')" class="opcion-secundaria mostrar">Mostrar</a></div>
+            <div><a href="javascript:Proyectos.listar('${Jugadores.Tags.Dorsal}')" class="opcion-secundaria mostrar">Mostrar</a></div>
         </td>
     </tr>
 `;
@@ -57,7 +58,7 @@ Jugadores.FormularioJugador = {}
 
 
 // Cabecera del formulario
-Jugadores.EditarJugador.formulario = `
+/*Jugadores.FormularioJugador.formulario = `
 <form method='post' action=''>
     <table width="100%" class="listado-jugadores">
         <thead>
@@ -76,7 +77,7 @@ Jugadores.EditarJugador.formulario = `
                         id="form-jugador_nombre" value="${Jugadores.Tags.nombre}" 
                         name="nombre_jugador"/></td>
                 <td><input type="text" class="form-jugador-elemento editable" disabled
-                        id="form-jugador_apellido" required value="${jugador.Tags.apellidos}" 
+                        id="form-jugador_apellido" required value="${Jugadores.Tags.apellidos}" 
                         name="apellido_jugador"/></td>
                 <td><input type="number" class="form-jugador-elemento editable" disabled
                         id="form-jugador-anio" min="1950" max="2030" size="8" required
@@ -91,4 +92,4 @@ Jugadores.EditarJugador.formulario = `
         </tbody>
     </table>
 </form>
-`;
+`;*/
