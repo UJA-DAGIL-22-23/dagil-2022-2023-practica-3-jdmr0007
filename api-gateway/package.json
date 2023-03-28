@@ -14,5 +14,8 @@
     "http-proxy-middleware": "^2.0.6",
     "jasmine": "^4.5.0",
     "supertest": "^6.3.3"
+  },
+  "dependencies": {
+    "api-gateway": "^1.0.0"
   }
 }

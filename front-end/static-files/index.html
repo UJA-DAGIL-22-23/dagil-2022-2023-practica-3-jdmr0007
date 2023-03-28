@@ -27,6 +27,8 @@
             title="Llama a la ruta / del MS Plantilla">Home</a>
         <a href="javascript:Plantilla.procesarAcercaDe()" class="opcion-principal"
             title="Llama a la ruta /acercade del MS Plantilla">Acerca de</a>
+        <a href="javascript:Proyectos.listar()" class="opcion-principal"
+            title="Llama a la ruta /proyectos del MS Plantilla">Listar proyectos</a>
     </nav>
 
     <!-- 
@@ -36,11 +38,9 @@
     <br>
 
     <article id="seccion-principal">
-
+        <!-- Título del article -->
         <h2 id="seccion-principal-titulo"></h2>
         <!-- Contenido del article -->
-        <a href="javascript:Proyectos.procesarEquipo()" class="opcion-principal"
-           title="Llama a la ruta / del MS Plantilla" >Ver equipo</a>
         <div id="seccion-principal-contenido">
         </div>
     </article>
@@ -55,13 +55,15 @@
 
     <!-- Cargamos ficheros JS propios del proyecto -->
     <script src="js/front-end.js"></script>
-    <script src="js/ms-plantilla.js"></script>
     <script src="js/Equipo_Jugadores.js"></script>
+    <script src="js/ms-plantilla.js"></script>
+    <script src="js/proyectos.js"></script>
 
 
     <!-- Cargamos ficheros spec con los tests -->
     <script src="js/front-end-spec.js"></script>
     <script src="js/ms-plantilla-spec.js"></script>
+    <script src="js/proyectos-spec.js"></script>
 
 </body>
 

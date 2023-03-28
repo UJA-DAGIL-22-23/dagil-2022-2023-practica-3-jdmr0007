@@ -6,6 +6,7 @@ Jugadores.TablaEquipo = {};
 
 //Tags que voy a usar para sustituir los campos
 Jugadores.Tags = {
+    "ID": "### ID ###",
     "Dorsal": "### DORSAL ###",
     "NOMBRE": "### NOMBRE ###",
     "APELLIDOS": "### APELLIDOS ###",
@@ -30,13 +31,14 @@ Jugadores.TablaEquipo.cabecera = `<table width="100%" class="listado-personas">
 
 
 Jugadores.TablaEquipo.cuerpo = `
-    <tr title="${Jugadores.id}">
-        <td>${Jugadores.dorsal}</td>
-        <td>${Jugadores.nombre} ${Jugadores.apellidos}</td>
-        <td>${Jugadores.año_contratación}</td>
-        <td>${Jugadores.posicion}</td>
+    <tr title="${Jugadores.Tags.ID}">
+        <td>${Jugadores.Tags.ID}</td>
+        <td>${Jugadores.Tags.Dorsal}</td>
+        <td>${Jugadores.Tags.NOMBRE} ${Jugadores.Tags.APELLIDOS}</td>
+        <td>${Jugadores.Tags["Año de contratacion"]}</td>
+        <td>${Jugadores.Tags.Posicion}</td>
         <td>
-            <div><a href="javascript:Proyectos.listar('${Jugadores.Tags.Dorsal}')" class="opcion-secundaria mostrar">Mostrar</a></div>
+            <div><a href="javascript:Proyectos.listar('${Jugadores.Tags.ID}')" class="opcion-secundaria mostrar">Mostrar</a></div>
         </td>
     </tr>
 `;
@@ -52,44 +54,84 @@ Jugadores.mostrarTabla = function (jugador) {
         + Jugadores.TablaEquipo.pie;
 }
 
+Jugadores.sustituyeTags = function (plantilla, jugador) {
+    return plantilla
+        .replace(new RegExp(Jugadores.Tags.ID, 'g'), jugador.ref['@ref'].id)
+        .replace(new RegExp(Jugadores.Tags.Dorsal, 'g'), jugador.ref['@ref'].dorsal)
+        .replace(new RegExp(Jugadores.Tags.NOMBRE, 'g'), jugador.data.nombre)
+        .replace(new RegExp(Jugadores.Tags.APELLIDOS, 'g'), jugador.data.apellidos)
+        .replace(new RegExp(Jugadores.Tags["Año de contratacion"], 'g'), jugador.data.año_entrada)
+        .replace(new RegExp(Jugadores.Tags.Posicion, 'g'), jugador.data.posicion)
+}
 
-/// Plantilla para poner los datos de una persona en un tabla dentro de un formulario
-Jugadores.FormularioJugador = {}
+Jugadores.recupera = async function (callBackFn) {
+    let response = null
+
+    // Intento conectar con el microservicio personas
+    try {
+        const url = Frontend.API_GATEWAY + "/plantilla/getTodas"
+        response = await fetch(url)
+
+    } catch (error) {
+        alert("Error: No se han podido acceder al API Gateway")
+        console.error(error)
+        //throw error
+    }
+
+    // Muestro todas las persoans que se han descargado
+    let vectorjugadores = null
+    if (response) {
+        vectorjugadores = await response.json()
+        callBackFn(vectorjugadores.data)
+    }
+}
 
 
-// Cabecera del formulario
-/*Jugadores.FormularioJugador.formulario = `
-<form method='post' action=''>
-    <table width="100%" class="listado-jugadores">
-        <thead>
-            <th width="10%">Dorsal</th><th width="20%">Nombre</th><th width="20%">Apellidos</th><th width="10%">Equipo</th>
-            <th width="15%">Año contratación</th><th width="25%">posicion</th>
-        </thead>
-        <tbody>
-            <tr title="${Jugadores.Tags.dorsal}">
-                <td><input type="text" class="form-persona-elemento" disabled id="form-jugadores-dorsal"
-                        value="${Jugadores.Tags.dorsal}" 
-                        name="dorsal_jugador"/></td>
-                <td><input type="text" class="form-jugador-elemento editable" disabled
-                        id="form-jugador-dorsal" required value="${Jugadores.Tags.dorsal}" 
-                        name="dorsal_jugador"/></td>
-                <td><input type="text" class="form-jugador-elemento editable" disabled
-                        id="form-jugador_nombre" value="${Jugadores.Tags.nombre}" 
-                        name="nombre_jugador"/></td>
-                <td><input type="text" class="form-jugador-elemento editable" disabled
-                        id="form-jugador_apellido" required value="${Jugadores.Tags.apellidos}" 
-                        name="apellido_jugador"/></td>
-                <td><input type="number" class="form-jugador-elemento editable" disabled
-                        id="form-jugador-anio" min="1950" max="2030" size="8" required
-                        value="${Jugadores.Tags["AÑO ENTRADA"]}" 
-                        name="año_entrada_jugador"/></td>
-                <td>
-                    <div><a href="javascript:Jugador.editar()" class="opcion-secundaria mostrar">Editar</a></div>
-                    <div><a href="javascript:Jugador.guardar()" class="opcion-terciaria editar ocultar">Guardar</a></div>
-                    <div><a href="javascript:Jugador.cancelar()" class="opcion-terciaria editar ocultar">Cancelar</a></div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</form>
-`;*/
+
+Jugadores.recuperaUnaPersona = async function (idjugador, callBackFn) {
+    try {
+        const url = Frontend.API_GATEWAY + "/plantilla/getPorId/" + idjugador
+        const response = await fetch(url);
+        if (response) {
+            const jugador = await response.json()
+            callBackFn(jugador)
+        }
+    } catch (error) {
+        alert("Error: No se han podido acceder al API Gateway")
+        console.error(error)
+    }
+}
+
+Jugadores.imprimeUnaPersona = function (jugador) {
+    // console.log(persona) // Para comprobar lo que hay en vector
+    let msj = Jugadores.JugadorComoFormulario(jugador)
+
+    // Borro toda la info de Article y la sustituyo por la que me interesa
+    Frontend.Article.actualizar("Mostrar una persona", msj)
+
+    // Actualiza el objeto que guarda los datos mostrados
+    Jugadores.almacenaDatos(jugador)
+}
+
+Jugadores.TablaEquipo.actualiza = function (jugador) {
+    return Jugadores.sustituyeTags(this.cuerpo, jugador)
+}
+
+Jugadores.imprimeMuchasPersonas = function (vector) {
+    // console.log(vector) // Para comprobar lo que hay en vector
+
+    // Compongo el contenido que se va a mostrar dentro de la tabla
+    let msj = Jugadores.TablaEquipo.cabecera
+    vector.forEach(e => msj += Jugadores.TablaEquipo.actualiza(e))
+    msj += Jugadores.TablaEquipo.pie
+
+    // Borro toda la info de Article y la sustituyo por la que me interesa
+    Frontend.Article.actualizar("Listado de jugadores", msj)
+}
+
+Jugadores.listar = function () {
+    Jugadores.recupera(Jugadores.imprimeMuchasPersonas);
+}
+
+
+

@@ -3,6 +3,7 @@ const client = new fauna.Client({ secret: 'fnAE_aP3MKAAzJ2OxyRIj5HVRufFhXIzCRxEd
 
 const jugadores = [
     {
+        id: 1,
         dorsal: 40,
         nombre: "Tuukka",
         apellidos: "Rask",
@@ -10,6 +11,7 @@ const jugadores = [
         posicion: "Portero"
     },
     {
+        id: 2,
         dorsal: 46,
         nombre: "David",
         apellidos: "Krejci",
@@ -17,6 +19,7 @@ const jugadores = [
         posicion: "Centro"
     },
     {
+        id: 3,
         dorsal: 37,
         nombre: "Patrice",
         apellidos: "Bergeron",
@@ -24,6 +27,7 @@ const jugadores = [
         posicion: "Centro"
     },
     {
+        id: 4,
         dorsal: 63,
         nombre: "Brad",
         apellidos: "Marchand",
@@ -31,6 +35,7 @@ const jugadores = [
         posicion: "Ala Izquierda"
     },
     {
+        id: 5,
         dorsal: 88,
         nombre: "David",
         apellidos: "Pastrnak",
@@ -38,6 +43,7 @@ const jugadores = [
         posicion: "Ala Derecha"
     },
     {
+        id: 6,
         dorsal: 73,
         nombre: "Charlie",
         apellidos: "McAvoy",
@@ -45,6 +51,7 @@ const jugadores = [
         posicion: "Defensa"
     },
     {
+        id: 7,
         dorsal: 48,
         nombre: "Matt",
         apellidos: "Grzelcyk",
@@ -52,6 +59,7 @@ const jugadores = [
         posicion: "Defensa"
     },
     {
+        id: 8,
         dorsal: 75,
         nombre: "Connor",
         apellidos: "Clifton",
@@ -59,6 +67,7 @@ const jugadores = [
         posicion: "Defensa"
     },
     {
+        id: 9,
         dorsal: 21,
         nombre: "Nick",
         apellidos: "Foligno",
@@ -66,6 +75,7 @@ const jugadores = [
         posicion: "Ala Izquierda"
     },
     {
+        id: 10,
         dorsal: 46,
         nombre: "Erik",
         apellidos: "Haula",
@@ -73,6 +83,7 @@ const jugadores = [
         posicion: "Centro"
     },
     {
+        id: 11,
         dorsal: 7,
         nombre: "Derek",
         apellidos: "Forbort",
@@ -80,17 +91,20 @@ const jugadores = [
         posicion: "Defensa"
     },
     {
+        id: 12,
         dorsal: 13,
         nombre: "Jake",
         apellidos: "DeBrusk",
         año_entrada: 2016,
         posicion: "Ala Izquierda"
     }
-
-
-
-
 ];
+
+
+
+
+
+
 
 for (const jugador of jugadores) {
     client.query(
