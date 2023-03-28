@@ -10,7 +10,7 @@
 /// Necesario para solicitar datos a otro ms
 const fetch = require("node-fetch"); 
 
-/// Dirección del ms personas, necesario para ms proyectos
+/// Dirección del ms plantilla, necesario para ms proyectos
 const URL_MS_PERSONAS = "http://localhost:8002";
 
 /// Necesario para conectar a la BBDD
@@ -99,23 +99,7 @@ const CB_MODEL_SELECTS = {
             let response_jugadores = await fetch(url)
             let jugadores = await response_jugadores.json()
 
-            // Comprobaciones para ver qué almacenan los datos descargados
-            // y así poder usarlos en las expresiones
-            
-            /*
-            //console.log( "Proyectos: \n", proyectos ) // Para comprobar qué se ha devuelto en proyectos
-            //console.log( "Personas: \n", personas ) // Para comprobar qué se ha devuelto en personas
-            // para comprobar las personas dentro de cada proyecto
-            
-            proyectos.data.forEach(e => {
-                console.log( e.data )
-            });
-            // usando e.ref["@ref"].id puedo saber el id de cada objeto descargado con fetch
-            personas.data.forEach(e => {
-                console.log( e.ref["@ref"].id, e.data)
-            });
-            */
-            // Incluyo los datos de cada persona que hay en el proyecto
+
             proyectos.data.forEach( pr=>{
                 // Creo un nuevo campo llamado datos_personas en cada proyecto
                 pr.data.datos_jugadores=jugadores.data.filter( pe =>
@@ -150,23 +134,7 @@ const CB_OTHERS = {
             CORS(res).status(500).json({ error: error.description })
         }
     },
-    /**
-     * Devuelve un mensaje indicando que se ha accedido a la información Acerca De del microservicio
-     * @param {*} req Objeto con los parámetros que se han pasado en la llamada a esta URL 
-     * @param {*} res Objeto Response con las respuesta que se va a dar a la petición recibida
-     */
-    acercaDe: async (req, res) => {
-        try {
-            CORS(res).status(200).json({
-                mensaje: "Microservicio Proyectos: acerca de",
-                autor: "Víctor Manuel Rivas Santos",
-                email: "vrivas@ujaen.es",
-                fecha: "febrero, 2023"
-            });
-        } catch (error) {
-            CORS(res).status(500).json({ error: error.description })
-        }
-    },
+
 
 }
 

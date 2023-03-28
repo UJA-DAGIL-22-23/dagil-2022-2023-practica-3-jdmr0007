@@ -59,7 +59,7 @@ describe('Servidor Proyectos:', () => {
         .expect(function (res) {
           //console.log( res.body ); // Para comprobar qué contiene exactamente res.body
           assert(res.body.data[0].data.hasOwnProperty('nombre'));
-          assert(res.body.data[0].data.nombre === "UJA Contabilidad");
+          assert(res.body.data[0].data.nombre === "Charlie");
 
         })
         .end((error) => { error ? done.fail(error) : done(); }
