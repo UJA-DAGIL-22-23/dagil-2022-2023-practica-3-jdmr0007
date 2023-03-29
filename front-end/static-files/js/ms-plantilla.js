@@ -107,55 +107,76 @@ Plantilla.procesarAcercaDe = function () {
     this.descargarRuta("/plantilla/acercade", this.mostrarAcercaDe);
 }
 
-let Proyectos = {};
 
-/**
- * Función principal para mostrar los datos enviados por la ruta " Equipo" de MS Plantilla
- */
 
-Proyectos.mostrarEquipo = function (datosDescargados) {
-    // Si no se ha proporcionado valor para datosDescargados
-    datosDescargados = datosDescargados || this.datosDescargadosNulos
+Plantilla.TablaEquipo = {};
 
-    // Si datos descargados NO es un objeto
-    if (typeof datosDescargados !== "object") datosDescargados = this.datosDescargadosNulos
-
-    // Si datos descargados NO contiene los campos mensaje, autor, o email
-    if (typeof datosDescargados.mensaje === "undefined" ||
-        typeof datosDescargados.autor === "undefined" ||
-        typeof datosDescargados.email === "undefined" ||
-        typeof datosDescargados.fecha === "undefined"
-    ) datosDescargados = this.datosDescargadosNulos
-
-    const mensajeAMostrar = `<div>
-    <p>${datosDescargados.mensaje}</p>
-    <ul>
-        <li><b>Autor/a</b>: ${datosDescargados.autor}</li>
-        <li><b>E-mail</b>: ${datosDescargados.email}</li>
-        <li><b>Fecha</b>: ${datosDescargados.fecha}</li>
-    </ul>
-    </div>
-    `;
-    Frontend.Article.actualizar("Equipo", mensajeAMostrar)
-}
-
-Proyectos.procesarEquipo = function () {
-    this.descargarRuta("/plantilla/equipoHokey", this.mostrarEquipo());
+//Tags que voy a usar para sustituir los campos
+Plantilla.Tags = {
+    "ID": "### ID ###",
+    "Dorsal": "### DORSAL ###",
+    "NOMBRE": "### NOMBRE ###",
+    "APELLIDOS": "### APELLIDOS ###",
+    "Año de contratacion": "### AÑO CONTRATACION ###",
+    "Posicion": "### Posicion ###",
 }
 
 
+Plantilla.TablaEquipo.cabecera = `<table width="100%" class="listado-personas">
+    <thead>
+        <tr>
+            <th width="10%">ID</th>
+            <th width="10%">Dorsal</th>
+            <th width="30%">Nombre completo</th>
+            <th width="20%">Año de contratación</th>
+            <th width="20%">Posición</th>
+        </tr>
+    </thead>
+    <tbody>
+`;
 
-/**
-* Función que recuperar todos los proyectos junto con las personas asignadas a cada uno de ellos
-* llamando al MS Proyectos
-* @param {función} callBackFn Función a la que se llamará una vez recibidos los datos.
-*/
-Proyectos.recuperaConJugadores = async function (callBackFn) {
+
+
+Plantilla.TablaEquipo.cuerpo = `
+    <tr title="${Plantilla.Tags.ID}">
+        <td>${Plantilla.Tags.ID}</td>
+        <td>${Plantilla.Tags.Dorsal}</td>
+        <td>${Plantilla.Tags.NOMBRE} ${Plantilla.Tags.APELLIDOS}</td>
+        <td>${Plantilla.Tags["Año de contratacion"]}</td>
+        <td>${Plantilla.Tags.Posicion}</td>
+        <td>
+            <div><a href="javascript:Plantilla.listar('${Plantilla.Tags.ID}')" class="opcion-secundaria mostrar">Mostrar</a></div>
+        </td>
+    </tr>
+`;
+
+Plantilla.TablaEquipo.pie = `
+    </tbody>
+    </table>
+`;
+
+Plantilla.mostrarTabla = function (jugador) {
+    return Plantilla.TablaEquipo.cabecera
+        + Plantilla.TablaEquipo.cuerpo
+        + Plantilla.TablaEquipo.pie;
+}
+
+Plantilla.sustituyeTags = function (plantilla, jugador) {
+    return plantilla
+        .replace(new RegExp(Plantilla.Tags.ID, 'g'), jugador.ref['@ref'].id)
+        .replace(new RegExp(Plantilla.Tags.Dorsal, 'g'), jugador.ref['@ref'].dorsal)
+        .replace(new RegExp(Plantilla.Tags.NOMBRE, 'g'), jugador.data.nombre)
+        .replace(new RegExp(Plantilla.Tags.APELLIDOS, 'g'), jugador.data.apellidos)
+        .replace(new RegExp(Plantilla.Tags["Año de contratacion"], 'g'), jugador.data.año_entrada)
+        .replace(new RegExp(Plantilla.Tags.Posicion, 'g'), jugador.data.posicion)
+}
+
+Plantilla.recupera = async function (callBackFn) {
     let response = null
 
-    // Intento conectar con el microservicio proyectos
+    // Intento conectar con el microservicio personas
     try {
-        const url = Frontend.API_GATEWAY + "/ms-plantilla/getTodosConPersonas"
+        const url = Frontend.API_GATEWAY + "/plantilla/getTodas"
         response = await fetch(url)
 
     } catch (error) {
@@ -164,88 +185,60 @@ Proyectos.recuperaConJugadores = async function (callBackFn) {
         //throw error
     }
 
-    // Muestro todos los proyectos que se han descargado
-    let vectorProyectos = null
+    // Muestro todas las persoans que se han descargado
+    let vectorjugadores = null
     if (response) {
-        vectorProyectos = await response.json()
-        callBackFn(vectorProyectos.data)
+        vectorjugadores = await response.json()
+        callBackFn(vectorjugadores.data)
     }
 }
 
 
-// Funciones para mostrar como TABLE
 
-/**
- * Crea la cabecera para mostrar la info como tabla
- * @returns Cabecera de la tabla
- */
-Proyectos.cabeceraTable = function () {
-    return `<table class="listado-proyectos">
-        <thead>
-        <th>Dorsal</th><th>Nombre</th><th>Apellidos</th><th>Fecha</th><th>Posicion</th>
-        </thead>
-        <tbody>
-    `;
-}
-
-/**
- * Muestra la información de cada proyecto en un elemento TR con sus correspondientes TD
- * @param {proyecto} p Datos del proyecto a mostrar
- * @returns Cadena conteniendo todo el elemento TR que muestra el proyecto.
- */
-Proyectos.cuerpoTr = function (p) {
-    const dorsal = p.dorsal;
-    const nombre = d.nombre;
-    const apellidos = d.apellidos;
-    const posicion =d.posicion;
-    const fecha=f.fecha;
-
-    return `<tr title="${p.ref['@ref'].id}">
-    <td>${d.dorsal}</td>
-    <td><em>${d.nombre}</em></td>
-    <td>${d.apellidos}</td>
-    <td>${f.dia}/${f.mes}/${f.año}</td>
-    </tr>
-    `;
+Plantilla.recuperaUnaPersona = async function (idjugador, callBackFn) {
+    try {
+        const url = Frontend.API_GATEWAY + "/plantilla/getPorId/" + idjugador
+        const response = await fetch(url);
+        if (response) {
+            const jugador = await response.json()
+            callBackFn(jugador)
+        }
+    } catch (error) {
+        alert("Error: No se han podido acceder al API Gateway")
+        console.error(error)
+    }
 }
 
 
-
-
-/**
- * Pie de la tabla en la que se muestran las personas
- * @returns Cadena con el pie de la tabla
- */
-Proyectos.pieTable = function () {
-    return "</tbody></table>";
+Plantilla.TablaEquipo.actualiza = function (jugador) {
+    return Plantilla.sustituyeTags(this.cuerpo, jugador)
 }
 
+Plantilla.imprimeMuchasPersonas = function (vector) {
+    // console.log(vector) // Para comprobar lo que hay en vector
 
-
-/**
- * Función para mostrar en pantalla todos los proyectos que se han recuperado de la BBDD.
- * @param {Vector_de_proyectos} vector Vector con los datos de los proyectos a mostrar
- */
-Proyectos.imprime = function (vector) {
-    //console.log( vector ) // Para comprobar lo que hay en vector
-    let msj = "";
-    msj += Proyectos.cabeceraTable();
-    vector.forEach(e => msj += Proyectos.cuerpoTr(e))
-    msj += Proyectos.pieTable();
+    // Compongo el contenido que se va a mostrar dentro de la tabla
+    let msj = Plantilla.TablaEquipo.cabecera
+    vector.forEach(e => msj += Plantilla.TablaEquipo.actualiza(e))
+    msj += Plantilla.TablaEquipo.pie
 
     // Borro toda la info de Article y la sustituyo por la que me interesa
-    Frontend.Article.actualizar( "Listado de proyectos", msj )
-
+    Frontend.Article.actualizar("Listado de jugadores", msj)
 }
 
-Proyectos.listar = function () {
-    this.recupera(this.imprime);
+Plantilla.listar = function () {
+    Plantilla.recupera(Plantilla.imprimeMuchasPersonas);
 }
 
 
 
-/**
- * Método para obtener todos los proyectos de la BBDD y, además, las personas que hay en cada proyecto
- * @param {*} req Objeto con los parámetros que se han pasado en la llamada a esta URL
- * @param {*} res Objeto Response con las respuesta que se va a dar a la petición recibida
- */
+
+
+
+
+
+
+
+
+
+

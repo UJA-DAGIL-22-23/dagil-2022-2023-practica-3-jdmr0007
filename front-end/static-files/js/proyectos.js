@@ -8,7 +8,7 @@
 
 /// Creo el espacio de nombres
 
-
+let Proyectos = {};
 
 
 /**
@@ -86,28 +86,21 @@ Proyectos.cabeceraTable = function () {
  * @returns Cadena conteniendo todo el elemento TR que muestra el proyecto.
  */
 Proyectos.cuerpoTr = function (p) {
-    const d = p.data
+    const d = p.data;
     const ini = d.inicio;
     const fin = d.final;
-    const presupuesto = Frontend.euros(d.presupuesto);
+    const dorsal = d.dorsal;
 
     return `<tr title="${p.ref['@ref'].id}">
-    <td>${d.alias}</td>
+    <td>${d.id}</td>
     <td><em>${d.nombre}</em></td>
-    <td>${presupuesto}</td>
+    <td>${dorsal}</td>
     <td>${ini.dia}/${ini.mes}/${ini.año}</td>
     <td>${fin.dia}/${fin.mes}/${fin.año}</td>
     </tr>
     `;
 }
 
-
-/**
- * Muestra la información de cada proyecto (incluyendo las personas asignadas)
- * en varios elementos TR con sus correspondientes TD
- * @param {proyecto} p Datos del proyecto a mostrar
- * @returns Cadena conteniendo los distintos elementos TR que muestran el proyecto.
- */
 
 
 /**
@@ -138,21 +131,7 @@ Proyectos.imprime = function (vector) {
 
 
 
-/**
- * Función para mostrar en pantalla todos los proyectos que se han recuperado de la BBD,
- * junto con las personas asignadas a los mismos.
- * @param {Vector_de_proyectos} vector Vector con los datos de los proyectos a mostrar
- */
-/*
-Proyectos.imprimeConPersonas = function (vector) {
-    //console.log( vector ) // Para comprobar lo que hay en vector
-    let msj = "";
-    vector.forEach(e => msj += Proyectos.cuerpoConPersonasTr(e))
 
-    // Borro toda la info de Article y la sustituyo por la que me interesa
-    Frontend.Article.actualizar( "Listado de proyectos con personas", msj )
-
-}*/
 
 
 /**
@@ -163,11 +142,4 @@ Proyectos.listar = function () {
     this.recupera(this.imprime);
 }
 
-/**
- * Función principal para recuperar los proyectos, incluyendo las personas, desde el MS y,
- * posteriormente, imprimirlos.
- * @returns True
- */
-Proyectos.listarConPersonas = function () {
-    this.recuperaConPersonas(this.imprimeConPersonas);
-}
+

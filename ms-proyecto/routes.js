@@ -56,14 +56,6 @@ router.get("/getTodos", async (req, res) => {
 });
 
 
-// Devuelve todos los proyectos que hay en la BBDD añadiendo las personas que participan
-router.get("/getTodosConPersonas", async (req, res) => {
-    try {
-        await callbacks.getTodosConPersonas(req, res)
-    } catch (error) {
-        console.log(error);
-    }
-});
 
 
 

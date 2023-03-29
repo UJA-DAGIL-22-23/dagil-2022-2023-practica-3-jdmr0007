@@ -8,10 +8,12 @@
  */
 
 /// Necesario para solicitar datos a otro ms
-const fetch = require("node-fetch"); 
+const fetch = require("node-fetch");
+
+
 
 /// Dirección del ms plantilla, necesario para ms proyectos
-const URL_MS_PERSONAS = "http://localhost:8002";
+const URL_MS_PLANTILLA = "http://localhost:8002";
 
 /// Necesario para conectar a la BBDD
 const faunadb = require('faunadb'),
@@ -20,6 +22,8 @@ const faunadb = require('faunadb'),
 const client_proyectos = new faunadb.Client({
     secret: 'fnAE6dR1GVAA1qiaRxaSZtbA7yGo6OpT2cB5NQnb',
 });
+
+const COLLECTION = "Jugadores"
 
 
 /**
@@ -45,7 +49,7 @@ function CORS(res) {
 const CB_MODEL_SELECTS = {
         /**
      * Prueba de conexión a la BBDD: devuelve todas los proyectos que haya en la BBDD.
-     * @param {*} req Objeto con los parámetros que se han pasado en la llamada a esta URL 
+     * @param {*} req Objeto con los parámetros que se han pasado en la llamada a esta URL
      * @param {*} res Objeto Response con las respuesta que se va a dar a la petición recibida
      */
     test_db: async (req, res) => {
@@ -63,14 +67,14 @@ const CB_MODEL_SELECTS = {
     },
     /**
      * Método para obtener todos los proyectos de la BBDD.
-     * @param {*} req Objeto con los parámetros que se han pasado en la llamada a esta URL 
+     * @param {*} req Objeto con los parámetros que se han pasado en la llamada a esta URL
      * @param {*} res Objeto Response con las respuesta que se va a dar a la petición recibida
      */
     getTodos: async (req, res) => {
         try {
-            let proyectos = await client_proyectos.query(
+            let proyectos = await client.query(
                 q.Map(
-                    q.Paginate(q.Documents(q.Collection("Equipos_Hokey_Hielo\n"))),
+                    q.Paginate(q.Documents(q.Collection(COLLECTION))),
                     q.Lambda("X", q.Get(q.Var("X")))
                 )
             )
@@ -84,7 +88,7 @@ const CB_MODEL_SELECTS = {
     },
     /**
      * Método para obtener todos los proyectos de la BBDD y, además, las personas que hay en cada proyecto
-     * @param {*} req Objeto con los parámetros que se han pasado en la llamada a esta URL 
+     * @param {*} req Objeto con los parámetros que se han pasado en la llamada a esta URL
      * @param {*} res Objeto Response con las respuesta que se va a dar a la petición recibida
      */
     getTodosConPersonas: async (req, res) => {
@@ -96,17 +100,17 @@ const CB_MODEL_SELECTS = {
                 )
             )
             let url=URL_MS_PLANTILLA+"/getTodas"
-            let response_jugadores = await fetch(url)
-            let jugadores = await response_jugadores.json()
+            let response_plantilla = await fetch(url)
+            let plantilla = await response_plantilla.json()
 
 
             proyectos.data.forEach( pr=>{
                 // Creo un nuevo campo llamado datos_personas en cada proyecto
-                pr.data.datos_jugadores=jugadores.data.filter( pe =>
-                    pr.data.jugadores.join(",").includes(pe.ref["@ref"].id)
+                pr.data.datos_plantilla=plantilla.data.filter( pe =>
+                    pr.data.plantilla.includes(pe.ref.id)  // Devuelve un array con las personas que están en el proyecto
                 )
             });
-            
+
             CORS(res)
                 .status(200)
                 .json(proyectos)
@@ -130,6 +134,24 @@ const CB_OTHERS = {
     home: async (req, res) => {
         try {
             CORS(res).status(200).json({mensaje: "Microservicio Proyectos: home"});
+        } catch (error) {
+            CORS(res).status(500).json({ error: error.description })
+        }
+    },
+
+    /**
+     * Devuelve un mensaje indicando que se ha accedido a la información Acerca De del microservicio
+     * @param {*} req Objeto con los parámetros que se han pasado en la llamada a esta URL
+     * @param {*} res Objeto Response con las respuesta que se va a dar a la petición recibida
+     */
+    acercaDe: async (req, res) => {
+        try {
+            CORS(res).status(200).json({
+                mensaje: "Microservicio Proyectos: acerca de",
+                autor: "Jose David Martinez Romero",
+                email: "jdmr0007@red.ujaen.es",
+                fecha: "marzo, 2023"
+            });
         } catch (error) {
             CORS(res).status(500).json({ error: error.description })
         }
