@@ -114,7 +114,6 @@ Plantilla.TablaEquipo = {};
 //Tags que voy a usar para sustituir los campos
 Plantilla.Tags = {
     "ID": "### ID ###",
-    "Dorsal": "### DORSAL ###",
     "NOMBRE": "### NOMBRE ###",
     "APELLIDOS": "### APELLIDOS ###",
     "Año de contratacion": "### AÑO CONTRATACION ###",
@@ -126,7 +125,6 @@ Plantilla.TablaEquipo.cabecera = `<table width="100%" class="listado-personas">
     <thead>
         <tr>
             <th width="10%">ID</th>
-            <th width="10%">Dorsal</th>
             <th width="30%">Nombre completo</th>
             <th width="20%">Año de contratación</th>
             <th width="20%">Posición</th>
@@ -140,7 +138,6 @@ Plantilla.TablaEquipo.cabecera = `<table width="100%" class="listado-personas">
 Plantilla.TablaEquipo.cuerpo = `
     <tr title="${Plantilla.Tags.ID}">
         <td>${Plantilla.Tags.ID}</td>
-        <td>${Plantilla.Tags.Dorsal}</td>
         <td>${Plantilla.Tags.NOMBRE} ${Plantilla.Tags.APELLIDOS}</td>
         <td>${Plantilla.Tags["Año de contratacion"]}</td>
         <td>${Plantilla.Tags.Posicion}</td>
@@ -164,7 +161,6 @@ Plantilla.mostrarTabla = function (jugador) {
 Plantilla.sustituyeTags = function (plantilla, jugador) {
     return plantilla
         .replace(new RegExp(Plantilla.Tags.ID, 'g'), jugador.ref['@ref'].id)
-        .replace(new RegExp(Plantilla.Tags.Dorsal, 'g'), jugador.ref['@ref'].dorsal)
         .replace(new RegExp(Plantilla.Tags.NOMBRE, 'g'), jugador.data.nombre)
         .replace(new RegExp(Plantilla.Tags.APELLIDOS, 'g'), jugador.data.apellidos)
         .replace(new RegExp(Plantilla.Tags["Año de contratacion"], 'g'), jugador.data.año_entrada)
