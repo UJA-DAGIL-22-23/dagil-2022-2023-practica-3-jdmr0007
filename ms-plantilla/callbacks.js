@@ -81,17 +81,67 @@ const CB_MODEL_SELECTS = {
     }
 
     },
-
+    /**
+     * Método para obtener una persona de la BBDD a partir de su ID
+     * @param {*} req Objeto con los parámetros que se han pasado en la llamada a esta URL
+     * @param {*} res Objeto Response con las respuesta que se va a dar a la petición recibida
+     */
     getPorID: async (req, res) => {
         try {
             let equipo = await client.query(
-                q.Get(q.Ref(q.Collection("Equipos_Hokey_Hielo"), req.params.id))
+                q.Get(q.Ref(q.Collection("Equipos_Hokey_Hielo"), req.params.idJugador))
             )
-            CORS(res).status(200).json(equipo)
+            CORS(res)
+                .status(200)
+                .json(equipo)
         } catch (error) {
             CORS(res).status(500).json({error: error.description})
         }
     },
+
+    /**
+     * Método para ocambiar los datos de una persona
+     * @param {*} req Objeto con los parámetros que se han pasado en la llamada a esta URL
+     * @param {*} res Objeto Response con las respuesta que se va a dar a la petición recibida
+     */
+    setTodo: async (req, res) => {
+        //console.log("setTodo req.body", req) // req.body contiene todos los parámetros de la llamada
+        try {
+            let valorDevuelto = {}
+            // Hay que comprobar Object.keys(req.body).length para saber si req.body es objeto "normal" o con problemas
+            // Cuando la llamada viene de un formulario, se crea una sola entrada, con toda la info en una sola key y el value está vacío.
+            // Cuando la llamada se hace con un objeto (como se hace desde el server-spec.js), el value No está vacío.
+            let data = (Object.values(req.body)[0] === '') ? JSON.parse(Object.keys(req.body)[0]) : req.body
+            //console.log("SETTODO data es", data)
+            let jugador = await client.query(
+                q.Update(
+                    q.Ref(q.Collection(COLLECTION), data.id),
+                    {
+                        data: {
+                            nombre: data.nombre,
+                            apellidos: data.apellidos,
+                            posicion: data.posicion,
+                            año_entrada: data.año_entrada,
+                        },
+                    },
+                )
+            )
+                .then((ret) => {
+                    valorDevuelto = ret
+                    //console.log("Valor devuelto ", valorDevuelto)
+                    CORS(res)
+                        .status(200)
+                        .header( 'Content-Type', 'application/json' )
+                        .json(valorDevuelto)
+                })
+
+        } catch (error) {
+            CORS(res).status(500).json({ error: error.description })
+        }
+    },
+
+
+
 
 }
 

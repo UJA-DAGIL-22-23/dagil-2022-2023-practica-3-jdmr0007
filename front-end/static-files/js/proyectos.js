@@ -101,6 +101,40 @@ Proyectos.cuerpoTr = function (p) {
     `;
 }
 
+/**
+ * Muestra la información de cada proyecto (incluyendo las personas asignadas)
+ * en varios elementos TR con sus correspondientes TD
+ * @param {proyecto} p Datos del proyecto a mostrar
+ * @returns Cadena conteniendo los distintos elementos TR que muestran el proyecto.
+ */
+Proyectos.cuerpoConPersonasTr = function (p) {
+    const d = p.data;
+    const ini = d.inicio;
+    const fin = d.final;
+    const dorsal = d.dorsal;
+    let msj = Proyectos.cabeceraTable();
+    msj += `<tr>
+    <td>${d.id}</td>
+    <td><em>${d.nombre}</em></td>
+    <td>${dorsal}</td>
+    <td>${ini.dia}/${ini.mes}/${ini.año}</td>
+    <td>${fin.dia}/${fin.mes}/${fin.año}</td>
+    </tr>
+    <tr><th colspan="5">Jugadores</th></tr>
+    <tr><td colspan="5">
+        $d.datos_plantilla
+        .map(e => "<a href='javascript:Plantilla.mostrar("${e.ref['@ref'].id}")'>")
+             + e.data.nombre
+            + " " + e.data.apellidos
+            + "</a>")
+        .join(", ")}
+    </td></tr>
+    `;
+    msj += Proyectos.pieTable();
+    return msj;
+}
+
+
 
 
 /**
@@ -121,11 +155,27 @@ Proyectos.imprime = function (vector) {
     //console.log( vector ) // Para comprobar lo que hay en vector
     let msj = "";
     msj += Proyectos.cabeceraTable();
-    vector.forEach(e => msj += Proyectos.cuerpoTr(e))
+    vector.constructor.data.forEach(e => msj += Proyectos.cuerpoTr(e))
     msj += Proyectos.pieTable();
 
     // Borro toda la info de Article y la sustituyo por la que me interesa
     Frontend.Article.actualizar( "Listado de proyectos", msj )
+
+}
+
+
+/**
+ * Función para mostrar en pantalla todos los proyectos que se han recuperado de la BBD,
+ * junto con las personas asignadas a los mismos.
+ * @param {Vector_de_proyectos} vector Vector con los datos de los proyectos a mostrar
+ */
+Proyectos.imprimeConPersonas = function (vector) {
+    //console.log( vector ) // Para comprobar lo que hay en vector
+    let msj = "";
+    vector.constructor.data.forEach(e => msj += Proyectos.cuerpoConPersonasTr(e))
+
+    // Borro toda la info de Article y la sustituyo por la que me interesa
+    Frontend.Article.actualizar( "Listado de proyectos con personas", msj )
 
 }
 
@@ -141,5 +191,16 @@ Proyectos.imprime = function (vector) {
 Proyectos.listar = function () {
     this.recupera(this.imprime);
 }
+
+
+/**
+ * Función principal para recuperar los proyectos, incluyendo las personas, desde el MS y,
+ * posteriormente, imprimirlos.
+ * @returns True
+ */
+Proyectos.listarConPersonas = function () {
+    this.recuperaConPersonas(this.imprimeConPersonas);
+}
+
 
 

@@ -3,101 +3,100 @@ const client = new fauna.Client({ secret: 'fnAE_aP3MKAAzJ2OxyRIj5HVRufFhXIzCRxEd
 
 const jugadores = [
     {
-        id: 1,
-        dorsal: 40,
+
         nombre: "Tuukka",
         apellidos: "Rask",
-        año_entrada: 2007,
-        posicion: "Portero"
+        fecha_entrada: "05/06/2007",
+        posicion: "Portero",
+        vector_nhl: [2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
     },
+
     {
-        id: 2,
-        dorsal: 46,
+
         nombre: "David",
         apellidos: "Krejci",
-        año_entrada: 2006,
-        posicion: "Centro"
+        fecha_entrada: "08/06/2006",
+        posicion: "Centro",
+        vector_nhl: [2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
     },
-    {
-        id: 3,
-        dorsal: 37,
-        nombre: "Patrice",
+
+
+    { nombre: "Patrice",
         apellidos: "Bergeron",
-        año_entrada: 2003,
-        posicion: "Centro"
+        fecha_entrada: "10/06/2003",
+        posicion: "Centro",
+        vector_nhl: [2003, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
     },
     {
-        id: 4,
-        dorsal: 63,
+
         nombre: "Brad",
         apellidos: "Marchand",
-        año_entrada: 2009,
-        posicion: "Ala Izquierda"
+        fecha_entrada: "20/05/2009",
+        posicion: "Ala Izquierda",
+        vector_nhl: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
     },
     {
-        id: 5,
-        dorsal: 88,
+
         nombre: "David",
         apellidos: "Pastrnak",
-        año_entrada: 2014,
-        posicion: "Ala Derecha"
+        fecha_entrada: "22/05/2014",
+        posicion: "Ala Derecha",
+        vector_nhl: [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
     },
     {
-        id: 6,
-        dorsal: 73,
+
         nombre: "Charlie",
         apellidos: "McAvoy",
-        año_entrada: 2016,
-        posicion: "Defensa"
+        fecha_entrada: "21/04/2016",
+        posicion: "Defensa",
+        vector_nhl: [2016, 2017, 2018, 2019, 2020, 2021]
     },
     {
-        id: 7,
-        dorsal: 48,
+
         nombre: "Matt",
         apellidos: "Grzelcyk",
-        año_entrada: 2016,
-        posicion: "Defensa"
+        fecha_entrada: "14/04/2016",
+        posicion: "Defensa",
+        vector_nhl: [2016, 2017, 2018, 2019, 2020, 2021]
     },
     {
-        id: 8,
-        dorsal: 75,
+
         nombre: "Connor",
         apellidos: "Clifton",
-        año_entrada: 2018,
-        posicion: "Defensa"
+        fecha_entrada: "18/05/2018",
+        posicion: "Defensa",
+        vector_nhl: [2018, 2019, 2020, 2021]
     },
     {
-        id: 9,
-        dorsal: 21,
+
         nombre: "Nick",
         apellidos: "Foligno",
-        año_entrada: 2021,
-        posicion: "Ala Izquierda"
+        fecha_entrada: "12/04/2021",
+        posicion: "Ala Izquierda",
+        vector_nhl: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
     },
     {
-        id: 10,
-        dorsal: 46,
         nombre: "Erik",
         apellidos: "Haula",
-        año_entrada: 2021,
-        posicion: "Centro"
+        fecha_entrada: "01/07/2021",
+        posicion: "Centro",
+        años_jugados_NHL: [2021]
     },
     {
-        id: 11,
-        dorsal: 7,
         nombre: "Derek",
         apellidos: "Forbort",
-        año_entrada: 2021,
-        posicion: "Defensa"
+        fecha_entrada: "01/07/2021",
+        posicion: "Defensa",
+        años_jugados_NHL: [2016, 2017, 2018, 2019, 2020, 2021]
     },
     {
-        id: 12,
-        dorsal: 13,
         nombre: "Jake",
         apellidos: "DeBrusk",
-        año_entrada: 2016,
-        posicion: "Ala Izquierda"
+        fecha_entrada: "01/07/2016",
+        posicion: "Ala Izquierda",
+        años_jugados_NHL: [2016, 2017, 2018, 2019, 2020, 2021, 2022]
     }
+
 ];
 
 

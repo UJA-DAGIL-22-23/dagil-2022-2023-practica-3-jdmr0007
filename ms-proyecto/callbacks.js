@@ -91,6 +91,7 @@ const CB_MODEL_SELECTS = {
      * @param {*} req Objeto con los parámetros que se han pasado en la llamada a esta URL
      * @param {*} res Objeto Response con las respuesta que se va a dar a la petición recibida
      */
+
     getTodosConPersonas: async (req, res) => {
         try {
             let proyectos = await client_proyectos.query(
@@ -104,7 +105,7 @@ const CB_MODEL_SELECTS = {
             let plantilla = await response_plantilla.json()
 
 
-            proyectos.data.forEach( pr=>{
+            plantilla.data.forEach( pr=>{
                 // Creo un nuevo campo llamado datos_personas en cada proyecto
                 pr.data.datos_plantilla=plantilla.data.filter( pe =>
                     pr.data.plantilla.includes(pe.ref.id)  // Devuelve un array con las personas que están en el proyecto

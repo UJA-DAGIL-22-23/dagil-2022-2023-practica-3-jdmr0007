@@ -123,6 +123,9 @@ Captura de final de trello:
 Como se puede ver en las capturas hay dos historias de usuarios que no se han podido completar, esto se debe a que ha habido problemas en la implementacion de la tabla 
 pos lo que esas historias de usuario se podran completar en el siguiente incremento.
 
+Segundo Incremento:
+Se ha corregido la fecha de la tabla añadiendo dia/mes/año y añadido un vector con los años de participacion en la NHL de cada jugador
+
 
 
 

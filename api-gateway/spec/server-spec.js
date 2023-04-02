@@ -99,7 +99,7 @@ describe('API Gateway: acceso a ', () => {
                 .end((error) => { error ? done.fail(error) : done() })
         });
     });
-    describe('BBDD Personas', () => {
+    describe('BBDD Plantilla', () => {
         it(' > Obtener todas las personas: debe tener un campo data que es un array de 3 objetos', (done) => {
             supertest(app)
                 .get('/plantilla/getTodas')
@@ -114,6 +114,20 @@ describe('API Gateway: acceso a ', () => {
                 .end((error) => { error ? done.fail(error) : done() })
         });
 
+    });
+
+    it(' > Obtener una persona por su id: debe tener un campo data y a su vez un email que es ana.alvarez@gmail.com', (done) => {
+        supertest(app)
+            .get('/plantilla/getPorId/360526407325974733')
+            .expect(200)
+            .expect('Content-Type', /json/)
+            .expect(function (res) {
+                // console.log( "getPorId Persona", res.body ); // Para comprobar qué contiene exactamente res.body
+                assert(res.body.hasOwnProperty('data'));
+                assert(res.body.data.hasOwnProperty('apellido'));
+                assert(res.body.data.email === "DeBrusk");
+            })
+            .end((error) => { error ? done.fail(error) : done() })
     });
 
 
