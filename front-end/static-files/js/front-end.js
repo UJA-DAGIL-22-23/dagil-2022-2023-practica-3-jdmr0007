@@ -122,11 +122,3 @@ Frontend.aniadirClase = function (elemento, nombreClase) {
 
     return this;
 }
-
-/*Frontend.Article.actualizar = function (titulo, contenido) {
-    this.borrar()
-        .aniadirTitulo(titulo)
-        .aniadirContenido(contenido)
-        .mostrar()
-    return this;
-}*/

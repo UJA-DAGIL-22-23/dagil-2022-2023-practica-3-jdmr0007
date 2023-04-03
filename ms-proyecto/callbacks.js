@@ -23,7 +23,7 @@ const client_proyectos = new faunadb.Client({
     secret: 'fnAE6dR1GVAA1qiaRxaSZtbA7yGo6OpT2cB5NQnb',
 });
 
-const COLLECTION = "Jugadores"
+
 
 
 /**
@@ -74,7 +74,7 @@ const CB_MODEL_SELECTS = {
         try {
             let proyectos = await client.query(
                 q.Map(
-                    q.Paginate(q.Documents(q.Collection(COLLECTION))),
+                    q.Paginate(q.Documents(q.Collection("Proyectos"))),
                     q.Lambda("X", q.Get(q.Var("X")))
                 )
             )
@@ -105,7 +105,7 @@ const CB_MODEL_SELECTS = {
             let plantilla = await response_plantilla.json()
 
 
-            plantilla.data.forEach( pr=>{
+            proyectos.data.forEach( pr=>{
                 // Creo un nuevo campo llamado datos_personas en cada proyecto
                 pr.data.datos_plantilla=plantilla.data.filter( pe =>
                     pr.data.plantilla.includes(pe.ref.id)  // Devuelve un array con las personas que están en el proyecto

@@ -50,10 +50,10 @@ describe("Pie table ", function () {
         ]
     }*/
 
-// let p = { data: d }
+//let p = { data: d }
 
 // Realizo los expect
-/* it("debería devolver una fila de tabla con los datos de un proyecto con personas asociadas",
+/*it("debería devolver una fila de tabla con los datos de un proyecto con personas asociadas",
      function () {
          let msj = Proyectos.cuerpoConPersonasTr(p)
          expect(msj.includes(d.inicio.dia)).toBeTrue();
@@ -62,7 +62,6 @@ describe("Pie table ", function () {
          expect(msj.includes(d.final.dia)).toBeTrue();
          expect(msj.includes(d.final.mes)).toBeTrue();
          expect(msj.includes(d.final.año)).toBeTrue();
-         expect(msj.includes(Frontend.euros(d.presupuesto))).toBeTrue();
          expect(msj.includes(d.alias)).toBeTrue();
          expect(msj.includes(d.nombre)).toBeTrue();
          for (let i = 0; i < d.datos_personas.length; ++i) {
@@ -72,5 +71,5 @@ describe("Pie table ", function () {
              expect(msj.includes(persona.data.apellidos)).toBeTrue();
          }
 
-     });
-});*/
+     });*/
+//});

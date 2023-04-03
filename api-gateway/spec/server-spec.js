@@ -44,7 +44,7 @@ describe('API Gateway: rutas estáticas', () => {
 describe('Rutas estáticas de Equipo', () => {
     it('Devuelve Equipo Home Page', (done) => {
         supertest(app)
-            .get('/plantilla/equipoHokey')
+            .get('/plantilla/')
             .expect(200)
             .expect('Content-Type', /json/)
             .expect(function (res) {
@@ -55,9 +55,9 @@ describe('Rutas estáticas de Equipo', () => {
             })
             .end((error) => { error ? done.fail(error) : done() })
     });
-    /*it('Devuelve Personas Acerca De', (done) => {
+    it('Devuelve Personas Acerca De', (done) => {
         supertest(app)
-            .get('/personas/acercade')
+            .get('/plantilla/acercade')
             .expect(200)
             .expect('Content-Type', /json/)
             .expect(function (res) {
@@ -67,7 +67,7 @@ describe('Rutas estáticas de Equipo', () => {
 
             })
             .end((error) => { error ? done.fail(error) : done() })
-    });*/
+    });
 });
 
 describe('API Gateway: acceso a ', () => {
@@ -94,7 +94,7 @@ describe('API Gateway: acceso a ', () => {
                     //console.log( "Get Todos Proyectos Con Personas", res.body ); // Para comprobar qué contiene exactamente res.body
                     assert(res.body.hasOwnProperty('data'));
                     assert(res.body.data[1].data.hasOwnProperty('datos_personas'));
-                    assert(res.body.data[1].data.datos_personas.length === 2);
+                    assert(res.body.data[1].data.datos_plantilla.length === 2);
                 })
                 .end((error) => { error ? done.fail(error) : done() })
         });
@@ -122,10 +122,10 @@ describe('API Gateway: acceso a ', () => {
             .expect(200)
             .expect('Content-Type', /json/)
             .expect(function (res) {
-                // console.log( "getPorId Persona", res.body ); // Para comprobar qué contiene exactamente res.body
+                 console.log( "getPorId Persona", res.body ); // Para comprobar qué contiene exactamente res.body
                 assert(res.body.hasOwnProperty('data'));
                 assert(res.body.data.hasOwnProperty('apellido'));
-                assert(res.body.data.email === "DeBrusk");
+                assert(res.body.data.apellidos === "DeBrusk");
             })
             .end((error) => { error ? done.fail(error) : done() })
     });

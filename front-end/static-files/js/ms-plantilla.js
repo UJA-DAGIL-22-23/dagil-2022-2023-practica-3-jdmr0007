@@ -136,7 +136,7 @@ Plantilla.TablaEquipo.cabecera = `<table width="100%" class="listado-personas">
             <th width="30%">Nombre completo</th>
             <th width="20%">Año de contratación</th>
             <th width="20%">Posición</th>
-            <th width="20%">Años de participacion de la NHL</th>
+            <th width="30%">Años de participacion de la NHL</th>
         </tr>
     </thead>
     <tbody>
@@ -152,7 +152,7 @@ Plantilla.TablaEquipo.cuerpo = `
         <td>${Plantilla.Tags.Posicion}</td>
         <td>${Plantilla.Tags[" NHL"]}</td>
         <td>
-            <div><a href="javascript:Plantilla.listar('${Plantilla.Tags.ID}')" class="opcion-secundaria mostrar">Mostrar</a></div>
+            <div><a href="javascript:Plantilla.mostrar('${Plantilla.Tags.ID}')" class="opcion-secundaria mostrar">Mostrar</a></div>
         </td>
     </tr>
 `;
@@ -223,12 +223,12 @@ Plantilla.sustituyeTags = function (plantilla, jugador) {
         .replace(new RegExp(Plantilla.Tags[" NHL"], 'g'), jugador.data.años_jugados_NHL)
 }
 
-Plantilla.FormularioEquipo.actualiza = function (plantilla) {
-    return Plantilla.sustituyeTags(this.formulario, plantilla)
+Plantilla.FormularioEquipo.actualiza = function (jugador) {
+    return Plantilla.sustituyeTags(this.formulario, jugador)
 }
 
-Plantilla.personaComoFormulario = function (plantilla) {
-    return Plantilla.FormularioEquipo.actualiza( plantilla );
+Plantilla.personaComoFormulario = function (jugador) {
+    return Plantilla.FormularioEquipo.actualiza( jugador );
 }
 
 Plantilla.recupera = async function (callBackFn) {

@@ -56,13 +56,63 @@ describe('Servidor PLANTILLA:', () => {
         .expect('Content-Type', /json/)
         .expect(function (res) {
           //console.log( res.body ); // Para comprobar qué contiene exactamente res.body
-          assert(res.body.data[0].data.hasOwnProperty('¿¿¿ PROPIEDAD ???'));
-          assert(res.body.data[0].data.nombre === "¿¿¿ VALOR ESPERADO ???");
+          assert(res.body.data[0].data.hasOwnProperty('nombre'));
+          assert(res.body.data[0].data.nombre === "David");
 
         })
         .end((error) => { error ? done.fail(error) : done(); }
         );
     });
+
+      it('Devuelve un vector de tamaño 3 al consultar mediante getTodas', (done) => {
+          supertest(app)
+              .get('/getTodas')
+              .expect(200)
+              .expect('Content-Type', /json/)
+              .expect(function (res) {
+                  // console.log( res.body ); // Para comprobar qué contiene exactamente res.body
+                  assert(res.body.data.length === 3);
+              })
+              .end((error) => { error ? done.fail(error) : done(); }
+              );
+      });
+
+      it('Devuelve carlos@hotmail.com al recuperar los datos de la Persona con id 354047338258366678 mediante getPorId', (done) => {
+          supertest(app)
+              .get('/getPorId/360526407325974733')
+              .expect(200)
+              .expect('Content-Type', /json/)
+              .expect(function (res) {
+                  //console.log( res.body ); // Para comprobar qué contiene exactamente res.body
+                  assert(res.body.data.hasOwnProperty('apellido'));
+                  assert(res.body.data.apellidos === "DeBrusk");
+              })
+              .end((error) => { error ? done.fail(error) : done(); }
+              );
+      });
+
+      it('Devuelve CORREO@CAMBIADO.COM al recuperar los datos de la Persona con id 354047536357441750 mediante setTodo', (done) => {
+          const apellido_TEST= 'apellido_cambiado'
+          const plantilla = {
+              id_jugador: '360526407325974733',
+              nombre_jugador: 'Nombre cambiado',
+              apellidos_jugador: apellido_TEST,
+              posicion_jugador: "posicion cambiada",
+              fecha_jugador: "01/07/2016"
+          };
+          supertest(app)
+              .post('/setTodo')
+              .send(persona)
+              .expect(200)
+              .expect('Content-Type', /json/)
+              .expect(function (res) {
+                  //console.log( "Server-spec , /setTodo res.body", res.body ); // Para comprobar qué contiene exactamente res.body
+                  assert(res.body.data.hasOwnProperty('apellido'));
+                  assert(res.body.data.apellidos === "DeBrusk");
+              })
+              .end((error) => { error ? done.fail(error) : done(); }
+              );
+      });
 
   })
 });

@@ -8,7 +8,7 @@ const jugadores = [
         apellidos: "Rask",
         fecha_entrada: "05/06/2007",
         posicion: "Portero",
-        vector_nhl: [2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
+        años_jugados_NHL: [2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
     },
 
     {
@@ -17,7 +17,7 @@ const jugadores = [
         apellidos: "Krejci",
         fecha_entrada: "08/06/2006",
         posicion: "Centro",
-        vector_nhl: [2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
+        años_jugados_NHL: [2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
     },
 
 
@@ -25,7 +25,7 @@ const jugadores = [
         apellidos: "Bergeron",
         fecha_entrada: "10/06/2003",
         posicion: "Centro",
-        vector_nhl: [2003, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
+        años_jugados_NHL: [2003, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
     },
     {
 
@@ -33,7 +33,7 @@ const jugadores = [
         apellidos: "Marchand",
         fecha_entrada: "20/05/2009",
         posicion: "Ala Izquierda",
-        vector_nhl: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
+        años_jugados_NHL: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
     },
     {
 
@@ -41,7 +41,7 @@ const jugadores = [
         apellidos: "Pastrnak",
         fecha_entrada: "22/05/2014",
         posicion: "Ala Derecha",
-        vector_nhl: [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
+        años_jugados_NHL: [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
     },
     {
 
@@ -49,7 +49,7 @@ const jugadores = [
         apellidos: "McAvoy",
         fecha_entrada: "21/04/2016",
         posicion: "Defensa",
-        vector_nhl: [2016, 2017, 2018, 2019, 2020, 2021]
+        años_jugados_NHL: [2016, 2017, 2018, 2019, 2020, 2021]
     },
     {
 
@@ -57,7 +57,7 @@ const jugadores = [
         apellidos: "Grzelcyk",
         fecha_entrada: "14/04/2016",
         posicion: "Defensa",
-        vector_nhl: [2016, 2017, 2018, 2019, 2020, 2021]
+        años_jugados_NHL: [2016, 2017, 2018, 2019, 2020, 2021]
     },
     {
 
@@ -65,7 +65,7 @@ const jugadores = [
         apellidos: "Clifton",
         fecha_entrada: "18/05/2018",
         posicion: "Defensa",
-        vector_nhl: [2018, 2019, 2020, 2021]
+        años_jugados_NHL: [2018, 2019, 2020, 2021]
     },
     {
 
@@ -73,7 +73,7 @@ const jugadores = [
         apellidos: "Foligno",
         fecha_entrada: "12/04/2021",
         posicion: "Ala Izquierda",
-        vector_nhl: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
+        años_jugados_NHL: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
     },
     {
         nombre: "Erik",
