@@ -60,7 +60,7 @@ router.param("idJugador", (req, res, next, id) => {
 
 router.post("/getPorId/:idJugador", async (req, res) => {
     try {
-        await callbacks.getPorID(req, res)
+        await callbacks.getPorId(req, res)
     } catch (error) {
         console.log(error);
     }

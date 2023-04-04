@@ -33,7 +33,7 @@ Plantilla.descargarRuta = async function (ruta, callBackFn) {
         response = await fetch(url)
 
     } catch (error) {
-        alert("Error: No se han podido acceder al API Gateway")
+        alert("Error:Plantilla.descargarRuta: No se han podido acceder al API Gateway")
         console.error(error)
         //throw error
     }
@@ -240,7 +240,7 @@ Plantilla.recupera = async function (callBackFn) {
         response = await fetch(url)
 
     } catch (error) {
-        alert("Error: No se han podido acceder al API Gateway")
+        alert("Error:Plantilla.Recupera: No se han podido acceder al API Gateway")
         console.error(error)
         //throw error
     }
@@ -255,16 +255,16 @@ Plantilla.recupera = async function (callBackFn) {
 
 
 
-Plantilla.recuperaUnaPersona = async function (idjugador, callBackFn) {
+Plantilla.recuperaUnaPersona = async function (idPersona, callBackFn) {
     try {
-        const url = Frontend.API_GATEWAY + "/plantilla/getPorId/" + idjugador
+        const url = Frontend.API_GATEWAY + "/personas/getPorId/" + idPersona
         const response = await fetch(url);
         if (response) {
-            const jugador = await response.json()
-            callBackFn(jugador)
+            const persona = await response.json()
+            callBackFn(persona)
         }
     } catch (error) {
-        alert("Error: No se han podido acceder al API Gateway")
+        alert("Error:Plantilla.recuperaUnaPersona: No se han podido acceder al API Gateway")
         console.error(error)
     }
 }
@@ -413,7 +413,7 @@ Plantilla.cancelar = function () {
 Plantilla.guardar = async function () {
     try {
         let url = Frontend.API_GATEWAY + "/plantilla/setTodo/"
-        let id_persona = document.getElementById("form-persona-id").value
+        let id_jugador = document.getElementById("form-jugador-id").value
         const response = await fetch(url, {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
             mode: 'no-cors', // no-cors, cors, *same-origin
@@ -441,9 +441,9 @@ Plantilla.guardar = async function () {
             alert(persona)
         }
 
-        Plantilla.mostrar(id_persona)
+        Plantilla.mostrar(id_jugador)
     } catch (error) {
-        alert("Error: No se han podido acceder al API Gateway " + error)
+        alert("Error,Plantilla.guardar: No se han podido acceder al API Gateway " + error)
         //console.error(error)
     }
 }
