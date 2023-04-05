@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "api-gateway": "^1.0.0",
+    "faunadb": "^4.8.0",
     "front-end": "^0.2.9"
   }
 }

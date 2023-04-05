@@ -1,6 +1,6 @@
 /**
  * @file routes.js
- * @description Define las rutas ante las que va a responder al MS Plantilla
+ * @description Define las rutas ante las que va a responder al MS Personas
  * @author Víctor M. Rivas <vrivas@ujaen.es>
  * @date 03-feb-2023
  */
@@ -46,6 +46,9 @@ router.get("/test_db", async (req, res) => {
     }
 });
 
+/**
+ * Devuelve todas las personas que hay en la BBDD
+ */
 router.get("/getTodas", async (req, res) => {
     try {
         await callbacks.getTodas(req, res)
@@ -54,11 +57,16 @@ router.get("/getTodas", async (req, res) => {
     }
 });
 
-router.param("idJugador", (req, res, next, id) => {
+
+router.param("idPersona", (req, res, next, id) => {
     next();
 });
 
-router.post("/getPorId/:idJugador", async (req, res) => {
+
+/**
+ * Devuelve los datos de la persona con el id pasado
+ */
+router.get("/getPorId/:idPersona", async (req, res) => {
     try {
         await callbacks.getPorId(req, res)
     } catch (error) {
@@ -66,6 +74,10 @@ router.post("/getPorId/:idJugador", async (req, res) => {
     }
 });
 
+
+/**
+ * Modifica el email de la persona con el id pasado
+ */
 router.post("/setTodo", async (req, res) => {
     try {
         await callbacks.setTodo(req, res)
@@ -73,7 +85,6 @@ router.post("/setTodo", async (req, res) => {
         console.log(error);
     }
 });
-
 
 // Exporto el módulo para poder usarlo en server
 module.exports = router;

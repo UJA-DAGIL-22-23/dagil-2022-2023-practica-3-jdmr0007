@@ -70,35 +70,7 @@ describe('Rutas estáticas de Equipo', () => {
     });
 });
 
-describe('API Gateway: acceso a ', () => {
-    describe('BBDD Proyectos', () => {
-        it('Obtener todos los proyectos: debe tener un campo data que es un array de 2 objetos', (done) => {
-            supertest(app)
-                .get('/proyectos/getTodos')
-                .expect(200)
-                .expect('Content-Type', /json/)
-                .expect(function (res) {
-                    //console.log( "Get Todos Proyectos", res.body ); // Para comprobar qué contiene exactamente res.body
-                    assert(res.body.hasOwnProperty('data'));
-                    assert(res.body.data.length === 2);
 
-                })
-                .end((error) => { error ? done.fail(error) : done() })
-        });
-        it('Devuelve 2 personas en el segundo proyecto al consultar getTodosConPersonas', (done) => {
-            supertest(app)
-                .get('/proyectos/getTodosConPersonas')
-                .expect(200)
-                .expect('Content-Type', /json/)
-                .expect(function (res) {
-                    //console.log( "Get Todos Proyectos Con Personas", res.body ); // Para comprobar qué contiene exactamente res.body
-                    assert(res.body.hasOwnProperty('data'));
-                    assert(res.body.data[1].data.hasOwnProperty('datos_personas'));
-                    assert(res.body.data[1].data.datos_plantilla.length === 2);
-                })
-                .end((error) => { error ? done.fail(error) : done() })
-        });
-    });
     describe('BBDD Plantilla', () => {
         it(' > Obtener todas las personas: debe tener un campo data que es un array de 3 objetos', (done) => {
             supertest(app)
@@ -131,7 +103,7 @@ describe('API Gateway: acceso a ', () => {
     });
 
 
-});
+
 
 
 

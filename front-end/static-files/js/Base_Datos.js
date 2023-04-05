@@ -1,9 +1,9 @@
 const fauna = require('faunadb');
-const client = new fauna.Client({ secret: 'fnAE_aP3MKAAzJ2OxyRIj5HVRufFhXIzCRxEdgJu' });
+const client = new fauna.Client({ secret: 'fnAFAxoD3mAAzZ8sstxKy6-AXDrXZvGEPxp5bmIN' });
 
 const jugadores = [
     {
-
+        id: 1,
         nombre: "Tuukka",
         apellidos: "Rask",
         fecha_entrada: "05/06/2007",
@@ -12,7 +12,7 @@ const jugadores = [
     },
 
     {
-
+        id: 2,
         nombre: "David",
         apellidos: "Krejci",
         fecha_entrada: "08/06/2006",
@@ -21,14 +21,16 @@ const jugadores = [
     },
 
 
-    { nombre: "Patrice",
+    {
+        id: 3,
+        nombre: "Patrice",
         apellidos: "Bergeron",
         fecha_entrada: "10/06/2003",
         posicion: "Centro",
         años_jugados_NHL: [2003, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
     },
     {
-
+        id: 4,
         nombre: "Brad",
         apellidos: "Marchand",
         fecha_entrada: "20/05/2009",
@@ -36,7 +38,7 @@ const jugadores = [
         años_jugados_NHL: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
     },
     {
-
+        id: 5,
         nombre: "David",
         apellidos: "Pastrnak",
         fecha_entrada: "22/05/2014",
@@ -44,7 +46,7 @@ const jugadores = [
         años_jugados_NHL: [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
     },
     {
-
+        id: 6,
         nombre: "Charlie",
         apellidos: "McAvoy",
         fecha_entrada: "21/04/2016",
@@ -52,7 +54,7 @@ const jugadores = [
         años_jugados_NHL: [2016, 2017, 2018, 2019, 2020, 2021]
     },
     {
-
+        id: 7,
         nombre: "Matt",
         apellidos: "Grzelcyk",
         fecha_entrada: "14/04/2016",
@@ -60,7 +62,7 @@ const jugadores = [
         años_jugados_NHL: [2016, 2017, 2018, 2019, 2020, 2021]
     },
     {
-
+        id: 8,
         nombre: "Connor",
         apellidos: "Clifton",
         fecha_entrada: "18/05/2018",
@@ -68,7 +70,7 @@ const jugadores = [
         años_jugados_NHL: [2018, 2019, 2020, 2021]
     },
     {
-
+        id: 9,
         nombre: "Nick",
         apellidos: "Foligno",
         fecha_entrada: "12/04/2021",
@@ -76,6 +78,7 @@ const jugadores = [
         años_jugados_NHL: [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]
     },
     {
+        id: 10,
         nombre: "Erik",
         apellidos: "Haula",
         fecha_entrada: "01/07/2021",
@@ -83,6 +86,7 @@ const jugadores = [
         años_jugados_NHL: [2021]
     },
     {
+        id: 11,
         nombre: "Derek",
         apellidos: "Forbort",
         fecha_entrada: "01/07/2021",
@@ -90,6 +94,7 @@ const jugadores = [
         años_jugados_NHL: [2016, 2017, 2018, 2019, 2020, 2021]
     },
     {
+        id: 12,
         nombre: "Jake",
         apellidos: "DeBrusk",
         fecha_entrada: "01/07/2016",

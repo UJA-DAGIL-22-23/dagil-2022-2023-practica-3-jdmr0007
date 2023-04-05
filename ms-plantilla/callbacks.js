@@ -17,7 +17,7 @@ const faunadb = require('faunadb'),
     q = faunadb.query;
 
 const client = new faunadb.Client({
-    secret: 'fnAE_aP3MKAAzJ2OxyRIj5HVRufFhXIzCRxEdgJu',
+    secret: 'fnAFAxoD3mAAzZ8sstxKy6-AXDrXZvGEPxp5bmIN',
 });
 
 const COLLECTION = "Equipos_Hokey_Hielo"
@@ -69,13 +69,15 @@ const CB_MODEL_SELECTS = {
     getTodas: async (req, res) => {
 
     try{
-        let equipos = await client.query(
+        let personas = await client.query(
             q.Map(
                 q.Paginate(q.Documents(q.Collection(COLLECTION))),
             q.Lambda("X", q.Get(q.Var("X")))
             )
         )
-        CORS(res).status(200).json(equipos)
+        CORS(res)
+            .status(200)
+            .json(personas)
     } catch (error) {
         CORS(res).status(500).json({ error: error.description })
     }
@@ -88,14 +90,16 @@ const CB_MODEL_SELECTS = {
      */
     getPorId: async (req, res) => {
         try {
-            let equipo = await client.query(
-                q.Get(q.Ref(q.Collection("Equipos_Hokey_Hielo"), req.params.idJugador))
+            // console.log( "getPorId req", req.params.idPersona ) // req.params contiene todos los parámetros de la llamada
+            let persona = await client.query(
+                q.Get(q.Ref(q.Collection('Equipos_Hokey_Hielo'), req.params.idPersona))
             )
+            // console.log( persona ) // Para comprobar qué se ha devuelto en persona
             CORS(res)
                 .status(200)
-                .json(equipo)
+                .json(persona)
         } catch (error) {
-            CORS(res).status(500).json({error: error.description})
+            CORS(res).status(500).json({ error: error.description })
         }
     },
 
@@ -113,15 +117,15 @@ const CB_MODEL_SELECTS = {
             // Cuando la llamada se hace con un objeto (como se hace desde el server-spec.js), el value No está vacío.
             let data = (Object.values(req.body)[0] === '') ? JSON.parse(Object.keys(req.body)[0]) : req.body
             //console.log("SETTODO data es", data)
-            let jugador = await client.query(
+            let persona = await client.query(
                 q.Update(
                     q.Ref(q.Collection(COLLECTION), data.id),
                     {
                         data: {
-                            nombre: data.nombre,
-                            apellidos: data.apellidos,
-                            posicion: data.posicion,
-                            año_entrada: data.año_entrada,
+                            nombre: data.nombre_persona,
+                            apellidos: data.apellidos_persona,
+                            posicion: data.posicion_persona,
+                            año_entrada: data.año_entrada_persona,
                         },
                     },
                 )
