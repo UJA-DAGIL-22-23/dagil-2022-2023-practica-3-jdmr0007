@@ -14,7 +14,7 @@ let Plantilla = {};
 Plantilla.datosDescargadosNulos = {
     mensaje: "Datos Descargados No válidos",
     autor: "",
-    email: "",
+    posicion: "",
     fecha: ""
 }
 
@@ -157,9 +157,9 @@ Plantilla.plantillaFormularioPersona.formulario = `
                         value="${Plantilla.plantillaTags["Año de contratacion"]}" 
                         name="año_contratacion_persona"/></td>
                 <td>
-                    <div><a href="javascript:Personas.editar()" class="opcion-secundaria mostrar">Editar</a></div>
-                    <div><a href="javascript:Personas.guardar()" class="opcion-terciaria editar ocultar">Guardar</a></div>
-                    <div><a href="javascript:Personas.cancelar()" class="opcion-terciaria editar ocultar">Cancelar</a></div>
+                    <div><a href="javascript:Plantilla.editar()" class="opcion-secundaria mostrar">Editar</a></div>
+                    <div><a href="javascript:Plantilla.guardar()" class="opcion-terciaria editar ocultar">Guardar</a></div>
+                    <div><a href="javascript:Plantilla.cancelar()" class="opcion-terciaria editar ocultar">Cancelar</a></div>
                 </td>
             </tr>
         </tbody>
@@ -214,7 +214,7 @@ Plantilla.sustituyeTags = function (plantilla, persona) {
         .replace(new RegExp(Plantilla.plantillaTags.ID, 'g'), persona.ref['@ref'].id)
         .replace(new RegExp(Plantilla.plantillaTags.NOMBRE, 'g'), persona.data.nombre)
         .replace(new RegExp(Plantilla.plantillaTags.APELLIDOS, 'g'), persona.data.apellidos)
-        .replace(new RegExp(Plantilla.plantillaTags["Año de contratacion"], 'g'), persona.data.fecha_entrada)
+        .replace(new RegExp(Plantilla.plantillaTags["Año de contratacion"], 'g'), persona.data.año)
         .replace(new RegExp(Plantilla.plantillaTags.Posicion, 'g'), persona.data.posicion)
         .replace(new RegExp(Plantilla.plantillaTags[" NHL"], 'g'), persona.data.años_jugados_NHL)
 }
@@ -507,9 +507,10 @@ Plantilla.guardar = async function () {
                 "id_persona": id_persona,
                 "nombre_persona": document.getElementById("form-persona-nombre").value,
                 "apellidos_persona": document.getElementById("form-persona-apellidos").value,
-                "año_entrada_persona": document.getElementById("form-persona-anio").value,
                 "posicion_persona": document.getElementById("form-persona-posicion").value,
-                "NHL_persona": document.getElementById("form-persona-NHL").value
+                "año_entrada_persona": document.getElementById("form-persona-anio").value
+
+
 
             }), // body data type must match "Content-Type" header
         })

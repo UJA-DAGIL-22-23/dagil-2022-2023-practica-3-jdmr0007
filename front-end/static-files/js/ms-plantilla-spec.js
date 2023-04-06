@@ -12,6 +12,9 @@ const elementoTitulo = document.getElementById(Frontend.ID_SECCION_PRINCIPAL_TIT
 const elementoContenido = document.getElementById(Frontend.ID_SECCION_PRINCIPAL_CONTENIDO)
 const TITULO_HOME = "Plantilla Home"
 const TITULO_ACERCA_DE = "Plantilla Acerca de"
+const Titulo_mostrar_persona="Mostrar una persona"
+
+
 
 const datosDescargadosPrueba = {
     mensaje: "Mensaje de prueba descargado",
@@ -121,7 +124,39 @@ describe("Plantilla.mostrarAcercaDe: ", function () {
             expect(elementoContenido.innerHTML.search(datosDescargadosPrueba.email) >= 0).toBeTrue()
             expect(elementoContenido.innerHTML.search(datosDescargadosPrueba.fecha) >= 0).toBeTrue()
         })
+
+
+
+
+
+
 })
+
+//describe('Pruebas para el método mostrar()', () => {
+    /*it('Debería mostrar datos nulos si falta algún dato en la tabla', () => {
+        // Creamos una instancia de la clase Plantilla
+        const plantilla = new Plantilla();
+
+        // Definimos un objeto de persona con algunos campos faltantes
+        const personaConCamposFaltantes = {
+            id: 1,
+            nombre: 'John',
+            apellidos: 'Doe',
+            // El campo 'año' está faltante
+            posicion: 'Delantero',
+            años_jugados_NHL: [2016, 2017, 2018, 2019, 2020, 2021, 2022]
+        };
+
+        // Llamamos al método mostrar() con el objeto de persona con campos faltantes
+        plantilla.mostrar(personaConCamposFaltantes);
+
+        // Verificamos si se muestra un valor nulo o un mensaje predeterminado en la tabla para el campo faltante
+        expect(/* código para verificar si se muestra un valor nulo o un mensaje predeterminado en la tabla para el campo faltante ).toBeTrue();
+
+
+        });*/
+
+//});
 
 
 
