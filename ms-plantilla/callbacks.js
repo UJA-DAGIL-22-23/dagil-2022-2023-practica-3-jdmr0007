@@ -22,6 +22,8 @@ const client = new faunadb.Client({
 
 const COLLECTION = "Equipos_Hokey_Hielo"
 
+
+
 // CALLBACKS DEL MODELO
 
 /**
@@ -83,6 +85,8 @@ const CB_MODEL_SELECTS = {
     }
 
     },
+
+
     /**
      * Método para obtener una persona de la BBDD a partir de su ID
      * @param {*} req Objeto con los parámetros que se han pasado en la llamada a esta URL

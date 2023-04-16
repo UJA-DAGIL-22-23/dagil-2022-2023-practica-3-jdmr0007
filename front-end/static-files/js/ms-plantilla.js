@@ -140,32 +140,39 @@ Plantilla.plantillaFormularioPersona.formulario = `
         </thead>
         <tbody>
             <tr title="${Plantilla.plantillaTags.ID}">
-             <td><input type="text" class="form-persona-elemento" disabled 
-                        id="form-persona-id"  value="${Plantilla.plantillaTags.ID}" 
-                        name="id_persona"/></td>
+                <td><input type="text" class="form-persona-elemento" disabled 
+                id="form-persona-id"  value="${Plantilla.plantillaTags.ID}" 
+                name="id_persona"/></td>
                 <td><input type="text" class="form-persona-elemento editable" disabled
-                        id="form-persona-nombre" required value="${Plantilla.plantillaTags.NOMBRE}" 
-                        name="nombre_persona"/></td>
+                id="form-persona-nombre" required value="${Plantilla.plantillaTags.NOMBRE}" 
+                name="nombre_persona"/></td>
                 <td><input type="text" class="form-persona-elemento editable" disabled
-                        id="form-persona-apellidos" value="${Plantilla.plantillaTags.APELLIDOS}" 
-                        name="apellidos_persona"/></td>
+                id="form-persona-apellidos" value="${Plantilla.plantillaTags.APELLIDOS}" 
+                name="apellidos_persona"/></td>
                 <td><input type="text" class="form-persona-elemento editable" disabled
-                        id="form-persona-posicion" required value="${Plantilla.plantillaTags.Posicion}" 
-                        name="posicion-persona"/></td>
+                id="form-persona-posicion" required value="${Plantilla.plantillaTags.Posicion}" 
+                name="posicion-persona"/></td>
                 <td><input type="number" class="form-persona-elemento editable" disabled
-                        id="form-persona-anio" min="1950" max="2030" size="8" required
-                        value="${Plantilla.plantillaTags["Año de contratacion"]}" 
-                        name="año_contratacion_persona"/></td>
-                <td>
-                    <div><a href="javascript:Plantilla.editar()" class="opcion-secundaria mostrar">Editar</a></div>
-                    <div><a href="javascript:Plantilla.guardar()" class="opcion-terciaria editar ocultar">Guardar</a></div>
-                    <div><a href="javascript:Plantilla.cancelar()" class="opcion-terciaria editar ocultar">Cancelar</a></div>
-                </td>
-            </tr>
+                id="form-persona-anio" min="1950" max="2030" size="8" required
+                value="${Plantilla.plantillaTags["Año de contratacion"]}" 
+                name="año_contratacion_persona"/></td>
+        <td>
+                <div><a href="javascript:Plantilla.editar()" class="opcion-secundaria mostrar">Editar</a></div>
+                <div><a href="javascript:Plantilla.guardar()" class="opcion-terciaria editar ocultar">Guardar</a></div>
+                <div><a href="javascript:Plantilla.cancelar()" class="opcion-terciaria editar ocultar">Cancelar</a></div>
+        </td>
+        <td>
+            <div><a href="javascript:Plantilla.mostrar(Plantilla.idAnterior)" class="opcion-secundaria mostrar">Anterior</a></div>
+            <div><a href="javascript:Plantilla.mostrar(Plantilla.idSiguiente)" class="opcion-secundaria mostrar">Siguiente</a></div>
+        </td>
+    </tr>
+
         </tbody>
     </table>
 </form>
 `;
+
+Plantilla.datosMostrados = [];
 
 
 /// Plantilla para poner los datos de varias personas dentro de una tabla
@@ -197,6 +204,7 @@ Plantilla.plantillaTablaPersonas.cuerpo = `
         <td>${Plantilla.plantillaTags.Posicion}</td>
         <td>${Plantilla.plantillaTags[" NHL"]}</td>
         <td>
+           
             <div><a href="javascript:Plantilla.mostrar('${Plantilla.plantillaTags.ID}')" class="opcion-secundaria mostrar">Mostrar</a></div>
         </td>
     </tr>
@@ -251,7 +259,7 @@ Plantilla.recupera = async function (callBackFn) {
         response = await fetch(url)
 
     } catch (error) {
-        alert("Error: No se han podido acceder al API Gateway")
+        alert("Error:recupera: No se han podido acceder al API Gateway")
         console.error(error)
         //throw error
     }
@@ -260,6 +268,7 @@ Plantilla.recupera = async function (callBackFn) {
     let vectorPersonas = null
     if (response) {
         vectorPersonas = await response.json()
+        Plantilla.datosMostrados= vectorPersonas.data
         callBackFn(vectorPersonas.data)
     }
 }
@@ -272,6 +281,7 @@ Plantilla.recupera = async function (callBackFn) {
  */
 Plantilla.recuperaUnaPersona = async function (idPersona, callBackFn) {
     try {
+
         const url = Frontend.API_GATEWAY + "/plantilla/getPorId/" + idPersona
         const response = await fetch(url);
         if (response) {
@@ -279,7 +289,7 @@ Plantilla.recuperaUnaPersona = async function (idPersona, callBackFn) {
             callBackFn(persona)
         }
     } catch (error) {
-        alert("Error: No se han podido acceder al API Gateway")
+        alert("Error:recupera una persona: No se han podido acceder al API Gateway")
         console.error(error)
     }
 }
@@ -321,7 +331,9 @@ Plantilla.imprimeMuchasPersonas = function (vector) {
     msj += Plantilla.plantillaTablaPersonas.pie
 
     // Borro toda la info de Article y la sustituyo por la que me interesa
+
     Frontend.Article.actualizar("Listado de personas", msj)
+    vector.forEach(e => Plantilla.datosMostrados.push(e.ID))
 }
 
 /**
@@ -330,15 +342,67 @@ Plantilla.imprimeMuchasPersonas = function (vector) {
  */
 
 Plantilla.imprimeUnaPersona = function (persona) {
+
+    const idPersona = persona.id;
+
+    // Llamo a las funciones obtenerIdAnterior y obtenerIdSiguiente para actualizar las variables de ID
+    Plantilla.obtenerIdAnterior(persona.ID)
+    Plantilla.obtenerIdSiguiente(persona.ID)
+
     // console.log(persona) // Para comprobar lo que hay en vector
-    let msj = Plantilla.personaComoFormulario(persona);
+    let msj = Plantilla.personaComoTabla(persona);
 
     // Borro toda la info de Article y la sustituyo por la que me interesa
     Frontend.Article.actualizar("Mostrar una persona", msj)
 
     // Actualiza el objeto que guarda los datos mostrados
     Plantilla.almacenaDatos(persona)
+
+    // Actualiza la información mostrada en la plantilla
+     msj = Plantilla.personaComoFormulario(persona);
+    Frontend.Article.actualizar("Mostrar una persona", msj);
+
+
+
 }
+
+Plantilla.obtenerIdAnterior = function (idActual) {
+    let idAnterior
+    for(let i=0; i<Plantilla.datosMostrados.length; i++){
+        if(Plantilla.datosMostrados[i] === idActual){
+            if(i === 0){
+                idAnterior = Plantilla.datosMostrados[Plantilla.datosMostrados.length-1]
+            }else{
+                idAnterior = Plantilla.datosMostrados[i-1]
+            }
+        }
+    }
+    // Actualizo la variable que almacena el ID anterior
+    Plantilla.idAnterior = idAnterior;
+
+
+}
+
+Plantilla.obtenerIdSiguiente = function (idActual) {
+    let idSiguiente
+    for(let i=0; i<Plantilla.datosMostrados.length; i++){
+        if(Plantilla.datosMostrados[i] === idActual){
+            if(i === Plantilla.datosMostrados.length-1){
+                idSiguiente = Plantilla.datosMostrados[0]
+            }else{
+                idSiguiente = Plantilla.datosMostrados[i+1]
+            }
+        }
+    }
+
+
+    // Actualizo la variable que almacena el ID siguiente
+    Plantilla.idSiguiente = idSiguiente;
+
+
+}
+
+
 
 /**
  * Almacena los datos de la persona que se está mostrando
