@@ -162,7 +162,7 @@ Plantilla.plantillaFormularioPersona.formulario = `
                 <div><a href="javascript:Plantilla.cancelar()" class="opcion-terciaria editar ocultar">Cancelar</a></div>
         </td>
         <td>
-            <div><a href="javascript:Plantilla.mostrar(Plantilla.idAnterior)" class="opcion-secundaria mostrar">Anterior</a></div>
+            <div><a href="javascript:Plantilla.mostrarIdAnterior(${Plantilla.plantillaTags.ID})" class="opcion-secundaria mostrar">Anterior</a></div>
             <div><a href="javascript:Plantilla.mostrar(Plantilla.idSiguiente)" class="opcion-secundaria mostrar">Siguiente</a></div>
         </td>
     </tr>
@@ -343,11 +343,6 @@ Plantilla.imprimeMuchasPersonas = function (vector) {
 
 Plantilla.imprimeUnaPersona = function (persona) {
 
-    const idPersona = persona.id;
-
-    // Llamo a las funciones obtenerIdAnterior y obtenerIdSiguiente para actualizar las variables de ID
-    Plantilla.obtenerIdAnterior(persona.ID)
-    Plantilla.obtenerIdSiguiente(persona.ID)
 
     // console.log(persona) // Para comprobar lo que hay en vector
     let msj = Plantilla.personaComoTabla(persona);
@@ -366,6 +361,19 @@ Plantilla.imprimeUnaPersona = function (persona) {
 
 }
 
+Plantilla.imprimeIDAnterior = function (persona) {
+
+    Plantilla.anteriorID=Plantilla.obtenerIdAnterior(persona.ref['@ref'].id)
+
+    // console.log(persona) // Para comprobar lo que hay en vector
+    let msj = Plantilla.personaComoTabla(persona);
+
+    // Borro toda la info de Article y la sustituyo por la que me interesa
+    Frontend.Article.actualizar("Mostrar una persona", msj)
+
+
+}
+
 Plantilla.obtenerIdAnterior = function (idActual) {
     let idAnterior
     for(let i=0; i<Plantilla.datosMostrados.length; i++){
@@ -378,7 +386,7 @@ Plantilla.obtenerIdAnterior = function (idActual) {
         }
     }
     // Actualizo la variable que almacena el ID anterior
-    Plantilla.idAnterior = idAnterior;
+    return idAnterior;
 
 
 }
@@ -437,6 +445,15 @@ Plantilla.listar = function () {
 Plantilla.mostrar = function (idPersona) {
     this.recuperaUnaPersona(idPersona, this.imprimeUnaPersona);
 }
+
+/**
+ * Función principal para mostrar los datos de una persona desde el MS y, posteriormente, imprimirla.
+ * @param {String} idPersona Identificador de la persona a mostrar
+ */
+Plantilla.mostrar = function (idPersona) {
+    this.recuperaUnaPersona(idPersona, this.imprimeIDAnterior);
+}
+
 
 
 /**
@@ -592,6 +609,78 @@ Plantilla.guardar = async function () {
         alert("Error,Plantilla.guardar: No se han podido acceder al API Gateway " + error)
         //console.error(error)
     }
+}
+
+// Cabecera del formulario
+Plantilla.plantillaFormularioPersona.aniadirJugador = `
+<form method='post' action=''>
+    <table width="100%" class="listado-personas">
+        <thead>
+            <th width="10%">Id</th><th width="20%">Nombre</th><th width="20%">Apellidos</th><th width="10%">Posicion</th>
+            <th width="15%">Año contratación</th><th width="25%">Acciones</th>
+        </thead>
+        <tbody>
+            <tr title="${Plantilla.plantillaTags.ID}">
+                <td><input type="text" class="form-persona-elemento" disabled 
+                id="form-persona-id"  value="${Plantilla.plantillaTags.ID}" 
+                name="id_persona"/></td>
+                <td><input type="text" class="form-persona-elemento editable" disabled
+                id="form-persona-nombre" required value="${Plantilla.plantillaTags.NOMBRE}" 
+                name="nombre_persona"/></td>
+                <td><input type="text" class="form-persona-elemento editable" disabled
+                id="form-persona-apellidos" value="${Plantilla.plantillaTags.APELLIDOS}" 
+                name="apellidos_persona"/></td>
+                <td><input type="text" class="form-persona-elemento editable" disabled
+                id="form-persona-posicion" required value="${Plantilla.plantillaTags.Posicion}" 
+                name="posicion-persona"/></td>
+                <td><input type="number" class="form-persona-elemento editable" disabled
+                id="form-persona-anio" min="1950" max="2030" size="8" required
+                value="${Plantilla.plantillaTags["Año de contratacion"]}" 
+                name="año_contratacion_persona"/></td>
+        
+        <td>
+            <div><a href="javascript:Plantilla.addJugador()" class="opcion-secundaria mostrar">Anterior</a></div>
+         
+        </td>
+    </tr>
+
+        </tbody>
+    </table>
+</form>
+`;
+
+
+Plantilla.addJugador = async function () {
+    // Obtiene los valores de los campos del formulario
+    const nombre = document.getElementById('form-persona-nombre').value;
+    const apellidos = document.getElementById('form-persona-apellidos').value;
+    const posicion = document.getElementById('form-persona-posicion').value;
+    const anioContratacion = document.getElementById('form-persona-anio').value;
+
+    // Conecta con FaunaDB
+    const fauna = require('faunadb');
+    const client = new fauna.Client({ secret: 'TU_CLAVE_SECRETA' });
+
+    // Crea un objeto con los datos del nuevo jugador
+    const newPlayer = { data: { nombre, apellidos, posicion, anioContratacion } };
+
+    // Agrega el nuevo jugador a la base de datos
+    client.query(
+        fauna.query.Create(
+            fauna.query.Collection('players'),
+            newPlayer
+        )
+    )
+        .then((response) => {
+            console.log('Jugador añadido:', response.data);
+        })
+        .catch((error) => {
+            console.error('Error al añadir jugador:', error);
+        })
+        .finally(() => {
+            // Cierra la conexión con FaunaDB
+            client.close();
+        });
 }
 
 
