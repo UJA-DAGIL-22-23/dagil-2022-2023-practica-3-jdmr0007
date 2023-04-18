@@ -127,6 +127,10 @@ Plantilla.plantillaTags = {
     "Posicion": "### Posicion ###",
     " NHL": "###  NHL ###",
 }
+
+Plantilla.datosMostrados = [];
+
+
 /// Plantilla para poner los datos de una persona en un tabla dentro de un formulario
 Plantilla.plantillaFormularioPersona = {}
 
@@ -162,7 +166,7 @@ Plantilla.plantillaFormularioPersona.formulario = `
                 <div><a href="javascript:Plantilla.cancelar()" class="opcion-terciaria editar ocultar">Cancelar</a></div>
         </td>
         <td>
-            <div><a href="javascript:Plantilla.mostrarIdAnterior(${Plantilla.plantillaTags.ID})" class="opcion-secundaria mostrar">Anterior</a></div>
+            <div><a href="javascript:Plantilla.mostrar(Plantilla.idAnterior)" class="opcion-secundaria mostrar">Anterior</a></div>
             <div><a href="javascript:Plantilla.mostrar(Plantilla.idSiguiente)" class="opcion-secundaria mostrar">Siguiente</a></div>
         </td>
     </tr>
@@ -172,7 +176,7 @@ Plantilla.plantillaFormularioPersona.formulario = `
 </form>
 `;
 
-Plantilla.datosMostrados = [];
+
 
 
 /// Plantilla para poner los datos de varias personas dentro de una tabla
@@ -342,7 +346,11 @@ Plantilla.imprimeMuchasPersonas = function (vector) {
  */
 
 Plantilla.imprimeUnaPersona = function (persona) {
+    console.log("IDactual",persona)
 
+    // Llamo a las funciones obtenerIdAnterior y obtenerIdSiguiente para actualizar las variables de ID
+    Plantilla.idAnterior=Plantilla.obtenerIdAnterior(persona.ref['@ref'].id)
+    //Plantilla.obtenerIdSiguiente(persona.ID)
 
     // console.log(persona) // Para comprobar lo que hay en vector
     let msj = Plantilla.personaComoTabla(persona);
@@ -354,29 +362,19 @@ Plantilla.imprimeUnaPersona = function (persona) {
     Plantilla.almacenaDatos(persona)
 
     // Actualiza la información mostrada en la plantilla
-     msj = Plantilla.personaComoFormulario(persona);
+    msj = Plantilla.personaComoFormulario(persona);
     Frontend.Article.actualizar("Mostrar una persona", msj);
 
 
 
 }
 
-Plantilla.imprimeIDAnterior = function (persona) {
-
-    Plantilla.anteriorID=Plantilla.obtenerIdAnterior(persona.ref['@ref'].id)
-
-    // console.log(persona) // Para comprobar lo que hay en vector
-    let msj = Plantilla.personaComoTabla(persona);
-
-    // Borro toda la info de Article y la sustituyo por la que me interesa
-    Frontend.Article.actualizar("Mostrar una persona", msj)
-
-
-}
 
 Plantilla.obtenerIdAnterior = function (idActual) {
     let idAnterior
     for(let i=0; i<Plantilla.datosMostrados.length; i++){
+        console.log("vector",Plantilla.datosMostrados[i])
+        console.log("idActual",idActual)
         if(Plantilla.datosMostrados[i] === idActual){
             if(i === 0){
                 idAnterior = Plantilla.datosMostrados[Plantilla.datosMostrados.length-1]
@@ -385,7 +383,9 @@ Plantilla.obtenerIdAnterior = function (idActual) {
             }
         }
     }
+    idAnterior=362342206676141260
     // Actualizo la variable que almacena el ID anterior
+    console.log("idAnterior",idAnterior)
     return idAnterior;
 
 
@@ -443,16 +443,11 @@ Plantilla.listar = function () {
  * @param {String} idPersona Identificador de la persona a mostrar
  */
 Plantilla.mostrar = function (idPersona) {
+    console.log('Mostrar: ', idPersona)
     this.recuperaUnaPersona(idPersona, this.imprimeUnaPersona);
 }
 
-/**
- * Función principal para mostrar los datos de una persona desde el MS y, posteriormente, imprimirla.
- * @param {String} idPersona Identificador de la persona a mostrar
- */
-Plantilla.mostrar = function (idPersona) {
-    this.recuperaUnaPersona(idPersona, this.imprimeIDAnterior);
-}
+
 
 
 
@@ -682,9 +677,6 @@ Plantilla.addJugador = async function () {
             client.close();
         });
 }
-
-
-
 
 
 

@@ -160,3 +160,21 @@ for (const jugador of jugadores) {
             console.error('Error al crear el jugador: ', error);
         });
 }
+
+//Eliminar jugadores
+/*for (const jugador of jugadores) {
+    client.query(
+        fauna.query.Delete(
+            fauna.query.Ref(
+                fauna.query.Collection('Equipos_Hokey_Hielo'),
+                jugador.id
+            )
+        )
+    )
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+}*/
