@@ -383,7 +383,6 @@ Plantilla.obtenerIdAnterior = function (idActual) {
             }
         }
     }
-    idAnterior=362342206676141260
     // Actualizo la variable que almacena el ID anterior
     console.log("idAnterior",idAnterior)
     return idAnterior;
@@ -606,8 +605,11 @@ Plantilla.guardar = async function () {
     }
 }
 
+Plantilla.FormularioPersona = {}
+
+
 // Cabecera del formulario
-Plantilla.plantillaFormularioPersona.aniadirJugador = `
+Plantilla.FormularioPersona.aniadirJugador = `
 <form method='post' action=''>
     <table width="100%" class="listado-personas">
         <thead>
@@ -616,25 +618,26 @@ Plantilla.plantillaFormularioPersona.aniadirJugador = `
         </thead>
         <tbody>
             <tr title="${Plantilla.plantillaTags.ID}">
-                <td><input type="text" class="form-persona-elemento" disabled 
+                <td><input type="text" class="form-persona-elemento"  
                 id="form-persona-id"  value="${Plantilla.plantillaTags.ID}" 
                 name="id_persona"/></td>
-                <td><input type="text" class="form-persona-elemento editable" disabled
+                <td><input type="text" class="form-persona-elemento editable" 
                 id="form-persona-nombre" required value="${Plantilla.plantillaTags.NOMBRE}" 
                 name="nombre_persona"/></td>
-                <td><input type="text" class="form-persona-elemento editable" disabled
+                <td><input type="text" class="form-persona-elemento editable" 
                 id="form-persona-apellidos" value="${Plantilla.plantillaTags.APELLIDOS}" 
                 name="apellidos_persona"/></td>
-                <td><input type="text" class="form-persona-elemento editable" disabled
+                <td><input type="text" class="form-persona-elemento editable" 
                 id="form-persona-posicion" required value="${Plantilla.plantillaTags.Posicion}" 
                 name="posicion-persona"/></td>
-                <td><input type="number" class="form-persona-elemento editable" disabled
+                <td><input type="number" class="form-persona-elemento editable" 
                 id="form-persona-anio" min="1950" max="2030" size="8" required
                 value="${Plantilla.plantillaTags["Año de contratacion"]}" 
                 name="año_contratacion_persona"/></td>
         
         <td>
-            <div><a href="javascript:Plantilla.addJugador()" class="opcion-secundaria mostrar">Anterior</a></div>
+            <div><a href="javascript:Plantilla.addJugador()" class="opcion-secundaria mostrar">Añadir</a></div>
+            
          
         </td>
     </tr>
@@ -647,6 +650,7 @@ Plantilla.plantillaFormularioPersona.aniadirJugador = `
 
 Plantilla.addJugador = async function () {
     // Obtiene los valores de los campos del formulario
+    console.log("Hola mundo")
     const nombre = document.getElementById('form-persona-nombre').value;
     const apellidos = document.getElementById('form-persona-apellidos').value;
     const posicion = document.getElementById('form-persona-posicion').value;
@@ -654,7 +658,7 @@ Plantilla.addJugador = async function () {
 
     // Conecta con FaunaDB
     const fauna = require('faunadb');
-    const client = new fauna.Client({ secret: 'TU_CLAVE_SECRETA' });
+    const client = new fauna.Client({ secret: 'fnAFAxoD3mAAzZ8sstxKy6-AXDrXZvGEPxp5bmIN' });
 
     // Crea un objeto con los datos del nuevo jugador
     const newPlayer = { data: { nombre, apellidos, posicion, anioContratacion } };
@@ -662,7 +666,7 @@ Plantilla.addJugador = async function () {
     // Agrega el nuevo jugador a la base de datos
     client.query(
         fauna.query.Create(
-            fauna.query.Collection('players'),
+            fauna.query.Collection('Equipos_Hokey_Hielo'),
             newPlayer
         )
     )

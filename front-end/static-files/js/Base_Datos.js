@@ -4,7 +4,7 @@ const client = new fauna.Client({ secret: 'fnAFAxoD3mAAzZ8sstxKy6-AXDrXZvGEPxp5b
 const jugadores = [
     {
 
-        id:1,
+
         nombre: "Tuukka",
         apellidos: "Rask",
         año:"2007",
@@ -16,7 +16,7 @@ const jugadores = [
 
     {
 
-        id:2,
+
         nombre: "David",
         apellidos: "Krejci",
         año:"2006",
@@ -29,7 +29,7 @@ const jugadores = [
 
     {
 
-        id:3,
+
         nombre: "Patrice",
         apellidos: "Bergeron",
         año:"2003",
@@ -40,7 +40,7 @@ const jugadores = [
     },
     {
 
-        id:4,
+
         nombre: "Brad",
         apellidos: "Marchand",
         año:"2009",
@@ -51,7 +51,7 @@ const jugadores = [
     },
     {
 
-        id:5,
+
         nombre: "David",
         apellidos: "Pastrnak",
         año:"2014",
@@ -62,7 +62,7 @@ const jugadores = [
     },
     {
 
-        id:6,
+
         nombre: "Charlie",
         apellidos: "McAvoy",
         año:"2016",
@@ -73,7 +73,7 @@ const jugadores = [
     },
     {
 
-        id:7,
+
         nombre: "Matt",
         apellidos: "Grzelcyk",
         año:"2016",
@@ -84,7 +84,7 @@ const jugadores = [
     },
     {
 
-        id:8,
+
         nombre: "Connor",
         apellidos: "Clifton",
         año:"2018",
@@ -95,7 +95,7 @@ const jugadores = [
     },
     {
 
-        id:9,
+
         nombre: "Nick",
         apellidos: "Foligno",
         año:"2021",
@@ -106,7 +106,7 @@ const jugadores = [
     },
     {
 
-        id:10,
+
         nombre: "Erik",
         apellidos: "Haula",
         año:"2021",
@@ -117,7 +117,7 @@ const jugadores = [
     },
     {
 
-        id:11,
+
         nombre: "Derek",
         apellidos: "Forbort",
         año:"2021",
@@ -128,7 +128,7 @@ const jugadores = [
     },
     {
 
-        id:12,
+
         nombre: "Jake",
         apellidos: "DeBrusk",
         año:"2016",
