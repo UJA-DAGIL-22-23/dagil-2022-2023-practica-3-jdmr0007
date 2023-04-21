@@ -149,7 +149,7 @@ const jugadores = [
 for (const jugador of jugadores) {
     client.query(
         fauna.query.Create(
-            fauna.query.Collection('Equipos_Hokey_Hielo'),
+            fauna.query.Collection('Hokey_Hielo_DA'),
             { data: jugador }
         )
     )
@@ -166,7 +166,7 @@ for (const jugador of jugadores) {
     client.query(
         fauna.query.Delete(
             fauna.query.Ref(
-                fauna.query.Collection('Equipos_Hokey_Hielo'),
+                fauna.query.Collection('Hokey_Hielo_Jugadores'),
                 jugador.id
             )
         )

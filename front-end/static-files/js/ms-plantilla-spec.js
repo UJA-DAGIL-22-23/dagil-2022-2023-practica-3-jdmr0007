@@ -7,7 +7,6 @@
 
 // SPECS para Jasmine
 
-
 // Constantes para usar en las pruebas
 const elementoTitulo = document.getElementById(Frontend.ID_SECCION_PRINCIPAL_TITULO)
 const elementoContenido = document.getElementById(Frontend.ID_SECCION_PRINCIPAL_CONTENIDO)
@@ -133,18 +132,8 @@ describe("Plantilla.mostrarAcercaDe: ", function () {
 
 })
 
-/**
- * Función principal para mostrar los datos de una persona desde el MS y, posteriormente, imprimirla.
- * @param {String} idPersona Identificador de la persona a mostrar
- */
-/*Plantilla.mostrar = function (idPersona) {
-    console.log('Mostrar: ', idPersona)
-    this.recuperaUnaPersona(idPersona, function(datosPersona) {
-        this.imprimeUnaPersona(datosPersona);
-    }.bind(this));
-};
+/*describe('Plantilla.mostrar', function () {
 
-describe('Plantilla.mostrar', function () {
     beforeEach(function () {
         spyOn(Plantilla, 'recuperaUnaPersona');
         spyOn(Plantilla, 'imprimeUnaPersona');
@@ -156,51 +145,32 @@ describe('Plantilla.mostrar', function () {
         expect(Plantilla.recuperaUnaPersona).toHaveBeenCalledWith(idPersona, jasmine.any(Function));
     });
 
-    it('debería llamar a imprimeUnaPersona con los datos de la persona', function () {
-        const datosPersona = {
-            nombre: 'Connor',
-            apellidos: 'Clifton',
-            año: 2018,
-            mes: 5,
-            dia: 18,
-            posicion: "Defensa",
-            años_jugados_NHL: [2018, 2019, 2020, 2021]
-        };
-
-        Plantilla.imprimeUnaPersona(datosPersona);
-        expect(Plantilla.imprimeUnaPersona).toHaveBeenCalledWith(datosPersona);
+    /*it('debería llamar a imprimeUnaPersona con los datos de la persona', function () {
+        //const datosPersona = { nombre: 'Connor', apellidos: 'Clifton', año: 2018, posicion: "Defensa", años_jugados_NHL: [2018, 2019, 2020, 2021] };
+        const callback = jasmine.createSpy();
+        Plantilla.imprimeUnaPersona(datosPersona, callback);
+        expect(callback).toHaveBeenCalledWith(datosPersona);
     });
-});
 
+});
 
 describe("Plantilla.obtenerIdAnterior", function () {
     let idActual, idAnterior;
 
     beforeEach(function () {
-        Plantilla.datosMostrados = ["362342206676140236",
-            "362342206676140237",
-            "362342206676141260",
-            "362342206676141261",
-            "362342206676142284",
-            "362342206676142285",
-            "362342206676143308",
-            "362342206676143309",
-            "362342206676144332",
-            "362342206676144333",
-            "362342206676145357",
-            "362342206677188812"];
+        Plantilla.datosMostrados = ["id1", "id2", "id3"];
     });
 
     it("debería devolver el ID anterior al actual si no es el primer elemento", function () {
-        idActual = "362342206676140237";
+        idActual = "id2";
         idAnterior = Plantilla.obtenerIdAnterior(idActual);
-        expect(idAnterior).toEqual("362342206676140236");
+        expect(idAnterior).toEqual("id1");
     });
 
     it("debería devolver el último ID si el actual es el primer elemento", function () {
-        idActual = "362342206676140236";
+        idActual = "id1";
         idAnterior = Plantilla.obtenerIdAnterior(idActual);
-        expect(idAnterior).toEqual("362342206677188812");
+        expect(idAnterior).toEqual("id3");
     });
 
     it("debería devolver undefined si el ID actual no está en el array de datos mostrados", function () {
@@ -210,151 +180,147 @@ describe("Plantilla.obtenerIdAnterior", function () {
     });
 });
 
-
 describe('Plantilla.imprimeUnaPersona', () => {
-        let persona, msj;
+    let persona, msj;
 
-        beforeEach(() => {
-            // Crear un objeto persona de prueba
-            persona = {
-                ref: {
-                    '@ref': {
-                        id: '361270097929568461'
-                    }
+    beforeEach(() => {
+        // Crear un objeto persona de prueba
+        persona = {
+            ref: {
+                '@ref': {
+                    id: '123'
                 }
-            };
-            // Crear un mensaje de prueba
-            msj = '<tabla con la información de la persona>';
-            // Espiar en la función "console.log"
-            spyOn(console, 'log');
-            // Espiar en la función "Frontend.Article.actualizar"
-            spyOn(Frontend.Article, 'actualizar');
-        });
-
-        it('debería actualizar el objeto que guarda los datos mostrados', () => {
-            // Llamar a la función a probar
-            Plantilla.imprimeUnaPersona(persona);
-            // Comprobar que la función "almacenaDatos" se llama con el objeto persona
-            expect(Plantilla.almacenaDatos).toHaveBeenCalledWith(persona);
-        });
-
-        it('debería actualizar la información mostrada en la plantilla', () => {
-            // Llamar a la función a probar
-            Plantilla.imprimeUnaPersona(persona);
-            // Comprobar que la función "personaComoFormulario" se llama con el objeto persona
-            expect(Plantilla.personaComoFormulario).toHaveBeenCalledWith(persona);
-            // Comprobar que la función "Frontend.Article.actualizar" se llama con el mensaje de prueba
-            expect(Frontend.Article.actualizar).toHaveBeenCalledWith("Mostrar una persona", msj);
-        });
-
-        it('debería imprimir un mensaje en la consola con el ID actual de la persona', () => {
-            // Llamar a la función a probar
-            Plantilla.imprimeUnaPersona(persona);
-            // Comprobar que la función "console.log" se llama con el mensaje esperado
-            expect(console.log).toHaveBeenCalledWith("IDactual", persona);
-        });
-
-        it('debería llamar a la función "obtenerIdAnterior" con el ID actual de la persona', () => {
-            // Llamar a la función a probar
-            Plantilla.imprimeUnaPersona(persona);
-            // Comprobar que la función "obtenerIdAnterior" se llama con el ID actual de la persona
-            expect(Plantilla.obtenerIdAnterior).toHaveBeenCalledWith(persona.ref['@ref'].id);
-        });
+            }
+        };
+        // Crear un mensaje de prueba
+        msj = '<tabla con la información de la persona>';
+        // Espiar en la función "console.log"
+        spyOn(console, 'log');
+        // Espiar en la función "Frontend.Article.actualizar"
+        spyOn(Frontend.Article, 'actualizar');
     });
 
-describe("Plantilla.imprimeMuchasPersonas", function () {
-    let vector;
-    beforeEach(function () {
-        // Preparar datos de prueba
-        vector = [
-            {nombre: "Tuukka", apellidos: "Rask", año:"2007", mes:"06", dia:"05", posicion: "Portero", años_jugados_NHL: [2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]},
-            {nombre: "David", apellidos: "Krejci", año:"2006", mes:"06", dia:"08", posicion: "Centro", años_jugados_NHL: [2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]},
-
-        ];
-
-        spyOn(Frontend.Article, "actualizar");
-        spyOn(Plantilla.plantillaTablaPersonas, "actualiza").and.callThrough();
+    it('debería actualizar el objeto que guarda los datos mostrados', () => {
+        // Llamar a la función a probar
+        Plantilla.imprimeUnaPersona(persona);
+        // Comprobar que la función "almacenaDatos" se llama con el objeto persona
+        expect(Plantilla.almacenaDatos).toHaveBeenCalledWith(persona);
     });
 
-    it("debería actualizar el objeto Article con el listado de personas", function () {
-        Plantilla.imprimeMuchasPersonas(vector);
-
-        let msjEsperado = Plantilla.plantillaTablaPersonas.cabecera;
-        vector.forEach(e => {
-            expect(Plantilla.plantillaTablaPersonas.actualiza).toHaveBeenCalledWith(e);
-            msjEsperado += Plantilla.plantillaTablaPersonas.actualiza(e);
-        });
-        msjEsperado += Plantilla.plantillaTablaPersonas.pie;
-
-        expect(Frontend.Article.actualizar).toHaveBeenCalledWith("Listado de personas", msjEsperado);
+    it('debería actualizar la información mostrada en la plantilla', () => {
+        // Llamar a la función a probar
+        Plantilla.imprimeUnaPersona(persona);
+        // Comprobar que la función "personaComoFormulario" se llama con el objeto persona
+        expect(Plantilla.personaComoFormulario).toHaveBeenCalledWith(persona);
+        // Comprobar que la función "Frontend.Article.actualizar" se llama con el mensaje de prueba
+        expect(Frontend.Article.actualizar).toHaveBeenCalledWith("Mostrar una persona", msj);
     });
 
-    it("debería añadir los IDs de los datos mostrados al array 'datosMostrados'", function () {
-        Plantilla.datosMostrados = [];
-        Plantilla.imprimeMuchasPersonas(vector);
-        expect(Plantilla.datosMostrados).toEqual(jasmine.arrayContaining([
-            vector[0].ID,
-            vector[1].ID
-        ]));
+    it('debería imprimir un mensaje en la consola con el ID actual de la persona', () => {
+        // Llamar a la función a probar
+        Plantilla.imprimeUnaPersona(persona);
+        // Comprobar que la función "console.log" se llama con el mensaje esperado
+        expect(console.log).toHaveBeenCalledWith("IDactual", persona);
     });
 
-    it("debería llamar a actualiza de plantillaTablaPersonas para cada persona", function () {
-        Plantilla.imprimeMuchasPersonas(vector);
-        expect(Plantilla.plantillaTablaPersonas.actualiza).toHaveBeenCalledTimes(2);
+    it('debería llamar a la función "obtenerIdAnterior" con el ID actual de la persona', () => {
+        // Llamar a la función a probar
+        Plantilla.imprimeUnaPersona(persona);
+        // Comprobar que la función "obtenerIdAnterior" se llama con el ID actual de la persona
+        expect(Plantilla.obtenerIdAnterior).toHaveBeenCalledWith(persona.ref['@ref'].id);
     });
 });
 
+/*describe("Plantilla.imprimeMuchasPersonas", function() {
 
+    beforeEach(function() {
+        spyOn(Frontend.Article, "actualizar");
+    });
 
+    it("debería actualizar los datos mostrados en el objeto Article", function() {
+        let vector = [
+            {
+                ID: "362342206676143308",
+                nombre: "Connor",
+                apellidos: "Clifton",
+                año:"2018",
+                mes:"05",
+                dia:"18",
+                posicion: "Defensa",
+                años_jugados_NHL: [2018, 2019, 2020, 2021]
+            }
+        ];
+        Plantilla.imprimeMuchasPersonas(vector);
+        expect(Frontend.Article.actualizar).toHaveBeenCalledWith(
+            "Listado de personas",
+            "<table><thead><tr><th>ID</th><th>Nombre</th><th>Apellidos</th><th>Año</th><th>Mes</th><th>Día</th><th>Posición</th><th>Años jugados NHL</th></tr></thead><tbody><tr><td>362342206676143308</td><td>Connor</td><td>Clifton</td><td>2018</td><td>05</td><td>18</td><td>Defensa</td><td>[2018, 2019, 2020, 2021]</td></tr></tbody></table>"
+        );
+    });
 
-describe("Plantilla.recupera", function () {
+    it("debería añadir los IDs de los datos mostrados al array 'datosMostrados'", function() {
+        let vector = [
+            {
+                ID: "362342206676143308",
+                nombre: "Connor",
+                apellidos: "Clifton",
+                año:"2018",
+                mes:"05",
+                dia:"18",
+                posicion: "Defensa",
+                años_jugados_NHL: [2018, 2019, 2020, 2021]
+            }
+        ];
+        Plantilla.datosMostrados = [];
+        Plantilla.imprimeMuchasPersonas(vector);
+        expect(Plantilla.datosMostrados).toEqual(["362342206676143308"]);
+    });
 
-        beforeEach(function () {
-            spyOn(window, "fetch").and.returnValue(Promise.resolve({
-                ok: true,
-                json: () => Promise.resolve({
-                    data: [
-                        {nombre: "Tuukka", apellidos: "Rask", año:"2007", mes:"06", dia:"05", posicion: "Portero", años_jugados_NHL: [2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]},
+});
 
-                    ]
-                })
-            }));
-        });
+describe("Plantilla.recupera", function() {
 
-        it("debería recuperar los datos del API y resolver la promesa con ellos", async function () {
-            const expectedData = [
-                {nombre: "Tuukka", apellidos: "Rask", año:"2007", mes:"06", dia:"05", posicion: "Portero", años_jugados_NHL: [2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]},
-                {nombre: "David", apellidos: "Krejci", año:"2006", mes:"06", dia:"08", posicion: "Centro", años_jugados_NHL: [2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021]}]
+    beforeEach(function() {
+        spyOn(window, "fetch").and.returnValue(Promise.resolve({
+            ok: true,
+            json: () => Promise.resolve({
+                data: [
+                    { ID: "123", nombre: "John", edad: 30 },
+                    { ID: "456", nombre: "Jane", edad: 25 },
+                    { ID: "789", nombre: "Bob", edad: 40 }
+                ]
+            })
+        }));
+    });
 
-                spyOn(window, "fetch").and.returnValue(Promise.resolve({
-                ok: true,
-                json: () => Promise.resolve({
-                    data: expectedData
-                })
-            }));
+    it("debería recuperar los datos del API y llamar a la función de devolución de llamada con ellos", async function() {
+        let callBackFn = jasmine.createSpy();
+        await Plantilla.recupera(callBackFn);
+        expect(window.fetch).toHaveBeenCalledWith(
+            Frontend.API_GATEWAY + "/plantilla/getTodas"
+        );
+        expect(callBackFn).toHaveBeenCalledWith([
+            { ID: "123", nombre: "John", edad: 30 },
+            { ID: "456", nombre: "Jane", edad: 25 },
+            { ID: "789", nombre: "Bob", edad: 40 }
+        ]);
+        expect(Plantilla.datosMostrados).toEqual([
+            { ID: "123", nombre: "John", edad: 30 },
+            { ID: "456", nombre: "Jane", edad: 25 },
+            { ID: "789", nombre: "Bob", edad: 40 }
+        ]);
+    });
 
-            const data = await Plantilla.recupera();
-            expect(window.fetch).toHaveBeenCalledWith(
-                Frontend.API_GATEWAY + "/plantilla/getTodas"
-            );
-            expect(data).toEqual(expectedData);
-            expect(Plantilla.datosMostrados).toEqual(expectedData);
-        });
+    it("debería manejar errores al obtener datos desde la API", async function() {
+        spyOn(window, "alert");
+        spyOn(console, "error");
+        window.fetch.and.returnValue(Promise.reject("API Gateway error"));
+        await Plantilla.recupera(jasmine.createSpy());
+        expect(window.alert).toHaveBeenCalledWith("Error:recupera: No se han podido acceder al API Gateway");
+        expect(console.error).toHaveBeenCalledWith("API Gateway error");
+        expect(Plantilla.datosMostrados).toBeNull();
+    });
 
-        it("debería manejar errores al obtener datos desde la API", async function () {
-            spyOn(window, "alert");
-            spyOn(console, "error");
-            window.fetch.and.returnValue(Promise.reject("API Gateway error"));
-
-            await expect(Plantilla.recupera()).rejects.toBe("API Gateway error");
-
-            expect(window.alert).toHaveBeenCalledWith("Error:recupera: No se han podido acceder al API Gateway");
-            expect(console.error).toHaveBeenCalledWith("API Gateway error");
-            expect(Plantilla.datosMostrados).toBeNull();
-        });
 });*/
-
-
 
 
 

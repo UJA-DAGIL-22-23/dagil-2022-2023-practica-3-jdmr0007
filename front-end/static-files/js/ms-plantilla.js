@@ -128,7 +128,8 @@ Plantilla.plantillaTags = {
     " NHL": "###  NHL ###",
 }
 
-Plantilla.datosMostrados = [];
+Plantilla.datosMostrados = {}
+
 
 
 /// Plantilla para poner los datos de una persona en un tabla dentro de un formulario
@@ -273,12 +274,10 @@ Plantilla.recupera = async function (callBackFn) {
     if (response) {
         vectorPersonas = await response.json()
         Plantilla.datosMostrados= vectorPersonas.data
-        console.log("DatosMostrados",Plantilla.datosMostrados)
+        //console.log("DatosMostrados",Plantilla.datosMostrados)
         callBackFn(vectorPersonas.data)
     }
 }
-
-
 
 /**
  * Función que recuperar todas las personas llamando al MS Personas.
@@ -329,8 +328,6 @@ Plantilla.personaComoFormulario = function (persona) {
  * @param {Vector_de_personas} vector Vector con los datos de las personas a mostrar
  */
 
-Plantilla.datosMostrados = [];
-
 Plantilla.imprimeMuchasPersonas = function (vector) {
     // console.log(vector) // Para comprobar lo que hay en vector
 
@@ -340,6 +337,7 @@ Plantilla.imprimeMuchasPersonas = function (vector) {
     msj += Plantilla.plantillaTablaPersonas.pie
 
     // Borro toda la info de Article y la sustituyo por la que me interesa
+
     Frontend.Article.actualizar("Listado de personas", msj)
 
 
@@ -370,10 +368,9 @@ Plantilla.imprimeUnaPersona = function (persona) {
     msj = Plantilla.personaComoFormulario(persona);
     Frontend.Article.actualizar("Mostrar una persona", msj);
 
-    // Agregar esta línea para llamar a la función Plantilla.almacenaDatos después de actualizar el objeto que guarda los datos mostrados
-    Plantilla.almacenaDatos(persona);
-}
 
+
+}
 
 
 Plantilla.obtenerIdAnterior = function (idActual) {
@@ -391,7 +388,7 @@ Plantilla.obtenerIdAnterior = function (idActual) {
     }
     // Actualizo la variable que almacena el ID anterior
     console.log("idAnterior",idAnterior)
-    return idAnterior.ref['@ref'].id
+    return idAnterior.ref['@ref'].id;
 
 
 }

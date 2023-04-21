@@ -66,8 +66,11 @@ const CB_MODEL_SELECTS = {
         }
     },
 
-
-
+    /**
+     * Método para obtener todas las personas de la BBDD.
+     * @param {*} req Objeto con los parámetros que se han pasado en la llamada a esta URL
+     * @param {*} res Objeto Response con las respuesta que se va a dar a la petición recibida
+     */
     getTodas: async (req, res) => {
 
     try{
