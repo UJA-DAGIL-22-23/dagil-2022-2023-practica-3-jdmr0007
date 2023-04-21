@@ -353,7 +353,7 @@ Plantilla.imprimeUnaPersona = function (persona) {
 
     // Llamo a las funciones obtenerIdAnterior y obtenerIdSiguiente para actualizar las variables de ID
     Plantilla.idAnterior=Plantilla.obtenerIdAnterior(persona.ref['@ref'].id)
-    //Plantilla.obtenerIdSiguiente(persona.ID)
+    Plantilla.idSiguiente=Plantilla.obtenerIdSiguiente(persona.ref['@ref'].id)
 
     // console.log(persona) // Para comprobar lo que hay en vector
     let msj = Plantilla.personaComoTabla(persona);
@@ -396,7 +396,7 @@ Plantilla.obtenerIdAnterior = function (idActual) {
 Plantilla.obtenerIdSiguiente = function (idActual) {
     let idSiguiente
     for(let i=0; i<Plantilla.datosMostrados.length; i++){
-        if(Plantilla.datosMostrados[i] === idActual){
+        if(Plantilla.datosMostrados[i].ref['@ref'].id === idActual){
             if(i === Plantilla.datosMostrados.length-1){
                 idSiguiente = Plantilla.datosMostrados[0]
             }else{
@@ -406,8 +406,10 @@ Plantilla.obtenerIdSiguiente = function (idActual) {
     }
 
 
-    // Actualizo la variable que almacena el ID siguiente
-    Plantilla.idSiguiente = idSiguiente;
+    // Actualizo la variable que almacena el ID anterior
+    console.log("idAnterior",idSiguiente)
+    return idSiguiente.ref['@ref'].id;
+
 
 
 }
