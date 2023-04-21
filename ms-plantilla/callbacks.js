@@ -17,10 +17,10 @@ const faunadb = require('faunadb'),
     q = faunadb.query;
 
 const client = new faunadb.Client({
-    secret: 'fnAFAxoD3mAAzZ8sstxKy6-AXDrXZvGEPxp5bmIN',
+    secret: 'fnAFCD_BuuAAzHay-Za5fzsHaizA-jgctTYs-C5K',
 });
 
-const COLLECTION = "Equipos_Hokey_Hielo"
+const COLLECTION = "Hokey_Hielo_Jugadores"
 
 
 
@@ -96,7 +96,7 @@ const CB_MODEL_SELECTS = {
         try {
             // console.log( "getPorId req", req.params.idPersona ) // req.params contiene todos los parámetros de la llamada
             let persona = await client.query(
-                q.Get(q.Ref(q.Collection('Equipos_Hokey_Hielo'), req.params.idPersona))
+                q.Get(q.Ref(q.Collection('Hokey_Hielo_Jugadores'), req.params.idPersona))
             )
             // console.log( persona ) // Para comprobar qué se ha devuelto en persona
             CORS(res)

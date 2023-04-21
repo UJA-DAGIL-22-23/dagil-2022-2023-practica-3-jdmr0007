@@ -1,4 +1,4 @@
-const fauna = require('faunadb');
+/*const fauna = require('faunadb');
 const client = new fauna.Client({ secret: 'fnAFAxoD3mAAzZ8sstxKy6-AXDrXZvGEPxp5bmIN' });
 
 const jugadores = [
@@ -162,7 +162,7 @@ for (const jugador of jugadores) {
 }
 
 //Eliminar jugadores
-/*for (const jugador of jugadores) {
+for (const jugador of jugadores) {
     client.query(
         fauna.query.Delete(
             fauna.query.Ref(
