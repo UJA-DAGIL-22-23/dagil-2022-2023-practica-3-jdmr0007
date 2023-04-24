@@ -169,6 +169,10 @@ Se ha añadido la funcionalidad de darle al boton mostrar en la tabla y que se m
 Se ha añadido la funcionalidad de poder editar los datos de los jugadores de la tabla.
 Como último se ha añadido la información del autor en el apartado "acerca de" de la página.
 
+
+
+
+
 Captura de los datos del jugador:
 
 ![Datos jugador](./assets/img/mostrar_usuario_segundo_incremento.png)
@@ -190,6 +194,33 @@ Captura de final de trello:
 ![Final Trello](./assets/img/trello_final_segundo_incremento.png)
 
 
+Tercer Incremento
+Se ha añadido la funcionalidad de poder ver el siguiente y el anterior jugador de la tabla.
+Como se puede ver en las capturas de trello se tenia pensado tambien añadir el boton para añadir jugador y para eliminarlo 
+y esta funcionalidad la empece hacer pero debido a los fallos que han salido al implementarlo no me ha dado tiempo para la version final.
+
+Captura del codigo para ver el siguiente jugador:
+
+![Siguiente jugador](./assets/img/boton_siguiente.png)
+
+Captura del codigo para ver el anterior jugador:
+
+![Anterior jugador](./assets/img/boton_anterior.png)
+
+Captura de la pagina de los dos botones
+
+![Pagina botones](./assets/img/boton_inicio_final.png)
+
+Captura de inicio de trello:
+
+![Inicio Trello](./assets/img/trello_inicial_tercer_incremento.png)
+
+Captura de final de trello:
+
+![Final Trello](./assets/img/trello_final_tercer_incremento.png)
+
+
+
 
 
 
@@ -198,3 +229,4 @@ Historias de usuario:
 * Como usuario quiero poder ver los datos de los jugadores de mi equipo de hockey favorito.
 * Como usuario quiero poder editar los datos(nombre, apellido, posicion y fecha) de los jugadores de mi equipo favorito.
 * Como usuario quiero poder ver los datos del autor de la página web.
+* Como usuario quiero poder ver el siguiente y el anterior jugador de la tabla.

@@ -86,6 +86,17 @@ router.post("/setTodo", async (req, res) => {
     }
 });
 
+/**
+ * Modifica el email de la persona con el id pasado
+ */
+router.post("/addJugador", async (req, res) => {
+    try {
+        await callbacks.addJugador(req, res)
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 
 
 

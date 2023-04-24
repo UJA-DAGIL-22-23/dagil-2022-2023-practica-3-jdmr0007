@@ -7,6 +7,9 @@
 
 "use strict";
 
+
+
+
 /// Creo el espacio de nombres
 let Plantilla = {};
 
@@ -17,6 +20,8 @@ Plantilla.datosDescargadosNulos = {
     posicion: "",
     fecha: ""
 }
+
+
 
 
 /**
@@ -211,6 +216,8 @@ Plantilla.plantillaTablaPersonas.cuerpo = `
         <td>
            
             <div><a href="javascript:Plantilla.mostrar('${Plantilla.plantillaTags.ID}')" class="opcion-secundaria mostrar">Mostrar</a></div>
+            
+</div>
         </td>
     </tr>
 `;
@@ -222,15 +229,21 @@ Plantilla.plantillaTablaPersonas.pie = `
     </table>
 `;
 
+
+
+
+
 Plantilla.sustituyeTags = function (plantilla, persona) {
     return plantilla
         .replace(new RegExp(Plantilla.plantillaTags.ID, 'g'), persona.ref['@ref'].id)
         .replace(new RegExp(Plantilla.plantillaTags.NOMBRE, 'g'), persona.data.nombre)
         .replace(new RegExp(Plantilla.plantillaTags.APELLIDOS, 'g'), persona.data.apellidos)
-        .replace(new RegExp(Plantilla.plantillaTags["Año de contratacion"], 'g'), persona.data.anio)
+        .replace(new RegExp(Plantilla.plantillaTags["Año de contratacion"], 'g'), persona.data.fecha.anio)
         .replace(new RegExp(Plantilla.plantillaTags.Posicion, 'g'), persona.data.posicion)
         .replace(new RegExp(Plantilla.plantillaTags[" NHL"], 'g'), persona.data.anios_jugados_NHL)
 }
+
+
 
 /**
  * Actualiza el cuerpo de la tabla con los datos de la persona que se le pasa
@@ -261,6 +274,7 @@ Plantilla.recupera = async function (callBackFn) {
     // Intento conectar con el microservicio personas
     try {
         const url = Frontend.API_GATEWAY + "/plantilla/getTodas"
+        console.log("URL", url)
         response = await fetch(url)
 
     } catch (error) {
@@ -329,11 +343,12 @@ Plantilla.personaComoFormulario = function (persona) {
  */
 
 Plantilla.imprimeMuchasPersonas = function (vector) {
-    // console.log(vector) // Para comprobar lo que hay en vector
+     console.log("expect Imprime muchas personas",vector) // Para comprobar lo que hay en vector
 
     // Compongo el contenido que se va a mostrar dentro de la tabla
     let msj = Plantilla.plantillaTablaPersonas.cabecera
-    vector.forEach(e => msj += Plantilla.plantillaTablaPersonas.actualiza(e))
+        vector.forEach(e => msj += Plantilla.plantillaTablaPersonas.actualiza(e))
+
     msj += Plantilla.plantillaTablaPersonas.pie
 
     // Borro toda la info de Article y la sustituyo por la que me interesa
@@ -349,11 +364,10 @@ Plantilla.imprimeMuchasPersonas = function (vector) {
  */
 
 Plantilla.imprimeUnaPersona = function (persona) {
-    console.log("IDactual",persona)
-
+    console.log("expect" ,persona)
     // Llamo a las funciones obtenerIdAnterior y obtenerIdSiguiente para actualizar las variables de ID
-    Plantilla.idAnterior=Plantilla.obtenerIdAnterior(persona.ref['@ref'].id)
-    Plantilla.idSiguiente=Plantilla.obtenerIdSiguiente(persona.ref['@ref'].id)
+    Plantilla.obtenerIdAnterior(persona)
+    Plantilla.obtenerIdSiguiente(persona)
 
     // console.log(persona) // Para comprobar lo que hay en vector
     let msj = Plantilla.personaComoTabla(persona);
@@ -373,12 +387,10 @@ Plantilla.imprimeUnaPersona = function (persona) {
 }
 
 
-Plantilla.obtenerIdAnterior = function (idActual) {
+Plantilla.obtenerIdAnterior =  function (idActual) {
     let idAnterior
     for(let i=0; i<Plantilla.datosMostrados.length; i++){
-        console.log("vector",Plantilla.datosMostrados[i])
-        console.log("idActual",idActual)
-        if(Plantilla.datosMostrados[i].ref['@ref'].id === idActual){
+        if(Plantilla.datosMostrados[i].ref['@ref'].id === idActual.ref['@ref'].id){
             if(i === 0){
                 idAnterior = Plantilla.datosMostrados[Plantilla.datosMostrados.length-1]
             }else{
@@ -387,8 +399,8 @@ Plantilla.obtenerIdAnterior = function (idActual) {
         }
     }
     // Actualizo la variable que almacena el ID anterior
-    console.log("idAnterior",idAnterior)
-    return idAnterior.ref['@ref'].id;
+    console.log("anterior",idAnterior)
+    Plantilla.idAnterior=idAnterior.ref['@ref'].id;
 
 
 }
@@ -396,7 +408,7 @@ Plantilla.obtenerIdAnterior = function (idActual) {
 Plantilla.obtenerIdSiguiente = function (idActual) {
     let idSiguiente
     for(let i=0; i<Plantilla.datosMostrados.length; i++){
-        if(Plantilla.datosMostrados[i].ref['@ref'].id === idActual){
+        if(Plantilla.datosMostrados[i].ref['@ref'].id === idActual.ref['@ref'].id){
             if(i === Plantilla.datosMostrados.length-1){
                 idSiguiente = Plantilla.datosMostrados[0]
             }else{
@@ -407,8 +419,8 @@ Plantilla.obtenerIdSiguiente = function (idActual) {
 
 
     // Actualizo la variable que almacena el ID anterior
-    console.log("idAnterior",idSiguiente)
-    return idSiguiente.ref['@ref'].id;
+    console.log("siguiente",idSiguiente)
+    Plantilla.idSiguiente=idSiguiente.ref['@ref'].id;
 
 
 
@@ -608,83 +620,6 @@ Plantilla.guardar = async function () {
         alert("Error,Plantilla.guardar: No se han podido acceder al API Gateway " + error)
         //console.error(error)
     }
-}
-
-Plantilla.FormularioPersona = {}
-
-
-// Cabecera del formulario
-Plantilla.FormularioPersona.aniadirJugador = `
-<form method='post' action=''>
-    <table width="100%" class="listado-personas">
-        <thead>
-            <th width="10%">Id</th><th width="20%">Nombre</th><th width="20%">Apellidos</th><th width="10%">Posicion</th>
-            <th width="15%">Año contratación</th><th width="25%">Acciones</th>
-        </thead>
-        <tbody>
-            <tr title="${Plantilla.plantillaTags.ID}">
-                <td><input type="text" class="form-persona-elemento"  
-                id="form-persona-id"  value="${Plantilla.plantillaTags.ID}" 
-                name="id_persona"/></td>
-                <td><input type="text" class="form-persona-elemento editable" 
-                id="form-persona-nombre" required value="${Plantilla.plantillaTags.NOMBRE}" 
-                name="nombre_persona"/></td>
-                <td><input type="text" class="form-persona-elemento editable" 
-                id="form-persona-apellidos" value="${Plantilla.plantillaTags.APELLIDOS}" 
-                name="apellidos_persona"/></td>
-                <td><input type="text" class="form-persona-elemento editable" 
-                id="form-persona-posicion" required value="${Plantilla.plantillaTags.Posicion}" 
-                name="posicion-persona"/></td>
-                <td><input type="number" class="form-persona-elemento editable" 
-                id="form-persona-anio" min="1950" max="2030" size="8" required
-                value="${Plantilla.plantillaTags["Año de contratacion"]}" 
-                name="año_contratacion_persona"/></td>
-        
-        <td>
-            <div><a href="javascript:Plantilla.addJugador()" class="opcion-secundaria mostrar">Añadir</a></div>
-            
-         
-        </td>
-    </tr>
-
-        </tbody>
-    </table>
-</form>
-`;
-
-
-Plantilla.addJugador = async function () {
-    // Obtiene los valores de los campos del formulario
-    console.log("Hola mundo")
-    const nombre = document.getElementById('form-persona-nombre').value;
-    const apellidos = document.getElementById('form-persona-apellidos').value;
-    const posicion = document.getElementById('form-persona-posicion').value;
-    const anioContratacion = document.getElementById('form-persona-anio').value;
-
-    // Conecta con FaunaDB
-    const fauna = require('faunadb');
-    const client = new fauna.Client({ secret: 'fnAFAxoD3mAAzZ8sstxKy6-AXDrXZvGEPxp5bmIN' });
-
-    // Crea un objeto con los datos del nuevo jugador
-    const newPlayer = { data: { nombre, apellidos, posicion, anioContratacion } };
-
-    // Agrega el nuevo jugador a la base de datos
-    client.query(
-        fauna.query.Create(
-            fauna.query.Collection('Equipos_Hokey_Hielo'),
-            newPlayer
-        )
-    )
-        .then((response) => {
-            console.log('Jugador añadido:', response.data);
-        })
-        .catch((error) => {
-            console.error('Error al añadir jugador:', error);
-        })
-        .finally(() => {
-            // Cierra la conexión con FaunaDB
-            client.close();
-        });
 }
 
 

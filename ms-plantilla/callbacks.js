@@ -8,13 +8,10 @@
  */
 
 
-
-
-
-
 // Necesario para conectar a la BBDD faunadb
 const faunadb = require('faunadb'),
     q = faunadb.query;
+const fauna = require("express");
 
 const client = new faunadb.Client({
     secret: 'fnAFCD_BuuAAzHay-Za5fzsHaizA-jgctTYs-C5K',
@@ -110,7 +107,11 @@ const CB_MODEL_SELECTS = {
         }
     },
 
-    /**
+
+
+
+
+/**
      * Método para ocambiar los datos de una persona
      * @param {*} req Objeto con los parámetros que se han pasado en la llamada a esta URL
      * @param {*} res Objeto Response con las respuesta que se va a dar a la petición recibida
